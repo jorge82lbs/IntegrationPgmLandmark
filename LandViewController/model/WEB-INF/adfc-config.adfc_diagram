@@ -1,0 +1,54 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<SDM>
+   <OverallProperties
+      id="OverallProperties1"/>
+   <View
+      id="View4">
+      <property
+         name="activityId">indexPage</property>
+      <property
+         name="page">/indexPage.jspx</property>
+      <property
+         name="description">&lt;html>&lt;p>&lt;b>indexPage&lt;/b>&lt;/p>&lt;p>Activity Type:  View&lt;/p></property>
+      <property
+         name="exceptionHandler">false</property>
+      <property
+         name="y">274.79883</property>
+      <property
+         name="x">294.5</property>
+   </View>
+   <WildcardControlFlowRule
+      id="WildcardControlFlowRule5">
+      <property
+         name="activityId">*</property>
+      <property
+         name="y">61.29883</property>
+      <property
+         name="x">85.0</property>
+   </WildcardControlFlowRule>
+   <View
+      id="View6">
+      <property
+         name="activityId">homePage</property>
+      <property
+         name="page">/pages/homePage.jspx</property>
+      <property
+         name="description">&lt;html>&lt;p>&lt;b>homePage&lt;/b>&lt;/p>&lt;p>Activity Type:  View&lt;/p></property>
+      <property
+         name="exceptionHandler">false</property>
+      <property
+         name="y">86.79883</property>
+      <property
+         name="x">349.5</property>
+   </View>
+   <ControlFlowCase
+      islink="true"
+      id="ControlFlowCase7"
+      from="WildcardControlFlowRule5"
+      to="View6">
+      <property
+         name="fromOutcome">homePage</property>
+      <property
+         name="sdm:polyPoints">R50,121.0,61.448242,308.5,86.44824,L50</property>
+   </ControlFlowCase>
+</SDM>

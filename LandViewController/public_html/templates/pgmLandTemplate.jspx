@@ -13,7 +13,7 @@
         </facet>
       </component>
     </af:xmlContent>
-    <af:panelStretchLayout topHeight="91px" startWidth="100px" id="PnlTemplate"
+    <af:panelStretchLayout topHeight="78px" startWidth="100px" id="PnlTemplate"
                            inlineStyle="border-style:none;">
       <f:facet name="top">
         <af:panelStretchLayout id="PnlTempHeader"
@@ -21,7 +21,7 @@
                                topHeight="107px" styleClass="AFStretchWidth">
           <f:facet name="top">
               <af:panelStretchLayout id="PnlTempHeaderLogo" inlineStyle="border-style:none;background-color:#DAE5F5;" 
-                                     bottomHeight="66px" topHeight="60px" styleClass="AFStretchWidth" startWidth="52px"
+                                     bottomHeight="75px" topHeight="60px" styleClass="AFStretchWidth" startWidth="52px"
                                      endWidth="306px">
               <f:facet name="start">
                   <af:panelGroupLayout id="PnlImg"
@@ -46,11 +46,11 @@
                 </f:facet>
                 <f:facet name="end">
                   <af:panelGroupLayout id="PnlTxt"
-                                       inlineStyle="border-style:none; background-image:url('images/blue-wall.jpg');"
+                                       inlineStyle="text-align:end; vertical-align:middle;"
                                        layout="vertical" valign="baseline"
                                        halign="end">
                       <af:spacer height="1" width="15" id="SpcAlto"/>
-                      <af:outputLabel value="Inicio de sesión: # { UserInfoBean.psDateTimeLogin}" id="LblTemp_8"
+                      <af:outputLabel value="Inicio de sesión: #{UserInfoBean.psDateTimeLogin}" id="LblTemp_8"
                                       inlineStyle="color:#E17521;"/>                      
                   </af:panelGroupLayout>
               </f:facet>
@@ -72,8 +72,8 @@
                           <af:outputLabel value="Bienvenido:" id="LblTemp_1"
                                           inlineStyle="color:#18345B; font-family:Arial, Helvetica, sans-serif; 
                                           font-weight:bold; font-size:12.0px;"/>
-                          <af:outputLabel value=" # { UserInfoBean.psUserFullName}" id="LblTemp_2" 
-                                          shortDesc="# { UserInfoBean.psEmail}"
+                          <af:outputLabel value=" #{UserInfoBean.psUserFullName}" id="LblTemp_2" 
+                                          shortDesc="#{UserInfoBean.psEmail}"
                                           inlineStyle="color:Black; font-family:Arial, Helvetica, sans-serif; 
                                           font-size:12px; font-weight:bold;"/>
                           <af:outputLabel value="(" id="LblTemp_9"
@@ -135,19 +135,19 @@
                       <af:panelStretchLayout id="PnlTempLn_3" 
                                              inlineStyle="border-style:none; background-color:#FF801A; height:1px;"
                                              styleClass="AFStretchWidth"/>
-                      <af:popup id="PopSalir" contentDelivery="lazyUncached" binding=" # {LoginBean.poPopupExitConfirm}">
+                      <af:popup id="PopSalir" contentDelivery="lazyUncached">
                             <af:panelWindow id="PnlSalir" 
                                             inlineStyle="border-style:none;"
                                             modal="true" 
                                             closeIconVisible="false"
-                                            title="Salir Integración Paradigm-eVeTV" 
+                                            title="Salir Integración Paradigm-Landmark" 
                                             titleIconSource="/images/logout2-icon16x16.png">
                                 <af:panelGroupLayout layout="vertical" 
                                                      id="PnlSalirMsg" 
                                                      inlineStyle="border-style:none;" 
                                                      valign="middle" 
                                                      halign="center">
-                                    <af:panelLabelAndMessage label="¿Desea Salir de Integración Paradigm-eVeTV?" 
+                                    <af:panelLabelAndMessage label="¿Desea Salir de Integración Paradigm-Landmark?" 
                                                              id="PnlLblMsgSalir"                                                    
                                                              inlineStyle="border-style:none; color:Olive;"/>
                                     <af:spacer width="50" height="25" id="SpcLoadOrder10Salir"/>

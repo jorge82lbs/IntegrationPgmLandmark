@@ -1,0 +1,4 @@
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+  <system systemId="http://tvmiddev1.televisa.net:10106/SecmanWebServices/SecmanBsAutenticarSoap12HttpPort?wsdl#%7Bhttp%3A%2F%2Ftempuri.org%2F%7DSecmanBsAutenticar"
+          uri="../mx/com/televisa/landamark/client/soap/auth/SecmanBsAutenticar.wsdl"/>
+</catalog>

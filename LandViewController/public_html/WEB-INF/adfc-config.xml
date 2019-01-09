@@ -1,2 +1,31 @@
 <?xml version="1.0" encoding="windows-1252" ?>
-<adfc-config xmlns="http://xmlns.oracle.com/adf/controller" version="1.2"></adfc-config>
+<adfc-config xmlns="http://xmlns.oracle.com/adf/controller" version="1.2">
+  <view id="indexPage">
+    <page>/indexPage.jspx</page>
+  </view>
+  <view id="homePage">
+    <page>/pages/homePage.jspx</page>
+  </view>
+  <control-flow-rule id="__2">
+    <from-activity-id>*</from-activity-id>
+    <control-flow-case id="__3">
+      <from-outcome>homePage</from-outcome>
+      <to-activity-id>homePage</to-activity-id>
+    </control-flow-case>
+  </control-flow-rule>
+  <managed-bean id="__4">
+    <managed-bean-name>LoginBean</managed-bean-name>
+    <managed-bean-class>mx.com.televisa.landamark.view.beans.LoginBean</managed-bean-class>
+    <managed-bean-scope>request</managed-bean-scope>
+  </managed-bean>
+  <managed-bean id="__1">
+    <managed-bean-name>UserInfoBean</managed-bean-name>
+    <managed-bean-class>mx.com.televisa.landamark.users.UserInfoBean</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+  </managed-bean>
+  <managed-bean id="__5">
+    <managed-bean-name>UserMenuBean</managed-bean-name>
+    <managed-bean-class>mx.com.televisa.landamark.users.UserMenuBean</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+  </managed-bean>
+</adfc-config>

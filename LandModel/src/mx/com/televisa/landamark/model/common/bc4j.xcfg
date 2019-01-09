@@ -1,0 +1,16 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<BC4JConfig version="11.1" xmlns="http://xmlns.oracle.com/bc4j/configuration">
+   <AppModuleConfigBag ApplicationName="mx.com.televisa.landamark.model.AppModule">
+      <AppModuleConfig name="AppModuleLocal" ApplicationName="mx.com.televisa.landamark.model.AppModule" DeployPlatform="LOCAL" jbo.project="mx.com.televisa.landamark.model.LandModel">
+         <Database jbo.sql92.JdbcDriverClass="com.ibm.as400.access.AS400JDBCDriver" jbo.TypeMapEntries="Java" jbo.SQLBuilder="SQL92"/>
+         <Security AppModuleJndiName="mx.com.televisa.landamark.model.AppModule"/>
+         <Custom ns0:JDBCDataSource="java:comp/env/jdbc/ParadigmDS" xmlns:ns0="http://xmlns.oracle.com/bc4j/configuration"/>
+      </AppModuleConfig>
+      <AppModuleConfig name="AppModuleShared" ApplicationName="mx.com.televisa.landamark.model.AppModule" DeployPlatform="LOCAL" jbo.project="mx.com.televisa.landamark.model.LandModel">
+         <AM-Pooling jbo.ampool.maxpoolsize="1" jbo.ampool.isuseexclusive="false"/>
+         <Database jbo.sql92.JdbcDriverClass="com.ibm.as400.access.AS400JDBCDriver" jbo.TypeMapEntries="Java" jbo.SQLBuilder="SQL92"/>
+         <Security AppModuleJndiName="mx.com.televisa.landamark.model.AppModule"/>
+         <Custom ns0:JDBCDataSource="java:comp/env/jdbc/ParadigmDS" xmlns:ns0="http://xmlns.oracle.com/bc4j/configuration"/>
+      </AppModuleConfig>
+   </AppModuleConfigBag>
+</BC4JConfig>
