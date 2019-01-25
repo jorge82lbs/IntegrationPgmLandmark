@@ -3,7 +3,7 @@
           xmlns:af="http://xmlns.oracle.com/adf/faces/rich">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <f:view>
-        <af:document title="Inicio" id="d1">
+        <af:document title="Inicio" id="d1" smallIconSource="/images/Activity-Monitor-icon2.png">
             <af:form id="f1">
                 <af:pageTemplate viewId="/templates/pgmLandTemplate.jspx" id="pt1">
                     <f:facet name="content"/>

@@ -12,6 +12,14 @@ package mx.com.televisa.landamark.view.beans;
 
 import java.io.IOException;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
+import java.util.ArrayList;
+import java.util.Date;
+
+import java.util.List;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -21,7 +29,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import mx.com.televisa.landamark.client.userpermission.types.Usuario;
 import mx.com.televisa.landamark.model.AppModuleImpl;
+import mx.com.televisa.landamark.users.UserInfoBean;
+import mx.com.televisa.landamark.users.UserMenuBean;
 import mx.com.televisa.landamark.view.secman.SecurityManagerWs;
 
 import mx.com.televisa.landamark.view.util.UtilFaces;
@@ -65,18 +76,56 @@ public class LoginBean {
         boolean lbFlagError = false;
         String  lsErrorMessage = null;
         String  lsTokenSecman;
-        if (lsUserName != null && lsPassword != null) {
-            FacesContext        loContext = FacesContext.getCurrentInstance();
-            ExternalContext     loEctx = loContext.getExternalContext();
-            String              lsUrl = 
-                loEctx.getRequestContextPath() + "/faces/homePage";
+        if (lsUserName != null && lsPassword != null) {                        
             try {                
                 lsTokenSecman = 
                     validateSecmanUser(lsUserName, lsPassword); 
                     //lsTokenSecman = "123456789"; //TEMPORAL
                 if (lsTokenSecman != null) {
-                    System.out.println("Redireccionando correctamente........");
-                    loEctx.redirect(lsUrl);
+                    System.out.println("obteniendo permisos");
+                    Usuario loUserIntegration = 
+                        getSecmanUserPermission(lsUserName);
+                    if(loUserIntegration != null){
+                        System.out.println("obteniendo permisos...oko");
+                        //Settear Datos--------------------------
+                        FacesContext        loContext = FacesContext.getCurrentInstance();
+                        ExternalContext     loEctx = loContext.getExternalContext();        
+                        HttpServletRequest  loRequest = (HttpServletRequest)loEctx.getRequest();
+                        HttpSession         loSession = loRequest.getSession(true);
+                        loSession.setAttribute("session.pgmIntegration", "true");
+                        UserInfoBean        loUserInfo = 
+                            (UserInfoBean) new UtilFaces().resolveExpression("#{UserInfoBean}");            
+                        DateFormat          ldDateFormat = 
+                            new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                        Date                ldDate = new Date();                    
+                        loUserInfo.setPsUserFullName(loUserIntegration.getNomMostrar().getNomMostrar());
+                        loUserInfo.setPsEmail(loUserIntegration.getMailUsuario().getMailUsuario());
+                        loUserInfo.setPsDateTimeLogin(ldDateFormat.format(ldDate));
+                        loUserInfo.setPsIdUser(loUserIntegration.getIdUsuario().getIdUsuario());
+                        loUserInfo.setPsUserName(loUserIntegration.getUserName().getUserName());
+                        loUserInfo.setPsToken(lsTokenSecman);
+                        loSession.setAttribute("loggedPgmIntegrationUser", loUserInfo.getPsUserName());                             
+                        loSession.setAttribute("loggedPgmIntegrationIdUser", loUserInfo.getPsIdUser()); 
+                        //### Asignar Operaciones a Usuario Firmado
+                        System.out.println("Asignando operaciones");
+                        UserMenuBean loMenu = getUserMenuBean(lsUserName);
+                        System.out.println("loMenu.getLsOprCrud(): "+loMenu.getLsOprCrud());
+                        System.out.println("loMenu.getLsOprDeleteCron(): "+loMenu.getLsOprDeleteCron());
+                        System.out.println("loMenu.getLsOprExecuteCron(): "+loMenu.getLsOprExecuteCron());
+                        System.out.println("loMenu.getLsOprInsertCron(): "+loMenu.getLsOprInsertCron());
+                        System.out.println("loMenu.getLsRolBitacora(): "+loMenu.getLsRolBitacora());
+                        System.out.println("loMenu.getLsRolMonitor(): "+loMenu.getLsRolMonitor());
+                        System.out.println("loMenu.getLsRolParametersConfig(): "+loMenu.getLsRolParametersConfig());
+                        String              lsUrl = 
+                            loEctx.getRequestContextPath() + "/faces/homePage";
+                        System.out.println("Redireccionando correctamente........");
+                        loEctx.redirect(lsUrl);
+                    }
+                    else{
+                        System.out.println("error al obtener permisos");
+                        lbFlagError = true;
+                        lsErrorMessage = "No es Posible Obtener Permisos";
+                    }
                 }
             } catch (IOException loEx) {
                 System.out.println("Error al redireccionar a home");
@@ -100,6 +149,94 @@ public class LoginBean {
         
         
         return null;
+    }
+    
+    /**
+     * Obtiene operaciones de Usuario en Security Manager 
+     * @autor Jorge Luis Bautista Santiago
+     * @return List
+     */
+    public UserMenuBean getUserMenuBean(String tsUserName) throws Exception {
+        UserMenuBean        loMenu = 
+            (UserMenuBean) new UtilFaces().resolveExpression("#{UserMenuBean}");
+        String              lsFlag = "false";
+        loMenu.setLsRolBitacora(lsFlag);
+        loMenu.setLsRolGeneralParams(lsFlag);
+        loMenu.setLsRolMonitor(lsFlag);
+        loMenu.setLsRolNotificationsConfig(lsFlag);
+        loMenu.setLsRolParametersConfig(lsFlag);
+        loMenu.setLsRolServicesConfig(lsFlag);
+        loMenu.setLsRolTaskConfig(lsFlag);                        
+        loMenu.setLsOprCrud(lsFlag);
+        loMenu.setLsOprDeleteCron(lsFlag);
+        loMenu.setLsOprExecuteCron(lsFlag);
+        loMenu.setLsOprInitStopCron(lsFlag);
+        loMenu.setLsOprInsertCron(lsFlag);
+        loMenu.setLsRolUsrVtaTradicional(lsFlag);
+        
+        List<String>        laOperaciones = 
+            getSecmanUserOperations(tsUserName);
+        for (int liI = 0; liI < laOperaciones.size(); liI++) {
+            lsFlag = "true";
+            if (laOperaciones.get(liI).equalsIgnoreCase("RolBitacora"))
+                loMenu.setLsRolBitacora(lsFlag);
+            
+            if (laOperaciones.get(liI).equalsIgnoreCase("RolGeneralParams"))
+                loMenu.setLsRolGeneralParams(lsFlag);                            
+                                        
+            if (laOperaciones.get(liI).equalsIgnoreCase("RolMonitor"))
+                loMenu.setLsRolMonitor(lsFlag);
+            
+            if (laOperaciones.get(liI).equalsIgnoreCase("RolNotificationsConfig"))
+                loMenu.setLsRolNotificationsConfig(lsFlag);
+            
+            if (laOperaciones.get(liI).equalsIgnoreCase("RolParametersConfig"))
+                loMenu.setLsRolParametersConfig(lsFlag);
+            
+            if (laOperaciones.get(liI).equalsIgnoreCase("RolServicesConfig"))
+                loMenu.setLsRolServicesConfig(lsFlag);
+            
+            if (laOperaciones.get(liI).equalsIgnoreCase("RolTaskConfig"))
+                loMenu.setLsRolTaskConfig(lsFlag);                        
+            
+            if (laOperaciones.get(liI).equalsIgnoreCase("OprCrud"))
+                loMenu.setLsOprCrud(lsFlag);
+            
+            if (laOperaciones.get(liI).equalsIgnoreCase("OprDeleteCron"))
+                loMenu.setLsOprDeleteCron(lsFlag);
+            
+            if (laOperaciones.get(liI).equalsIgnoreCase("OprExecuteCron"))
+                loMenu.setLsOprExecuteCron(lsFlag);
+            
+            if (laOperaciones.get(liI).equalsIgnoreCase("OprInitStopCron"))
+                loMenu.setLsOprInitStopCron(lsFlag);
+            
+            if (laOperaciones.get(liI).equalsIgnoreCase("OprInsertCron"))
+                loMenu.setLsOprInsertCron(lsFlag);
+            
+            if (laOperaciones.get(liI).equalsIgnoreCase("RolUsrVtaTradicional"))
+                loMenu.setLsRolUsrVtaTradicional(lsFlag);                                
+            
+        }
+        return loMenu;
+    }
+    
+    /**
+     * Obtiene operaciones de Usuario en Security Manager 
+     * @autor Jorge Luis Bautista Santiago
+     * @return List
+     */
+    public List<String> getSecmanUserOperations(String tsUserName) throws Exception {
+        List<String>  lsResponse = new ArrayList<String>();        
+        SecurityManagerWs loSecMan = new SecurityManagerWs();
+        try {
+            lsResponse = 
+                loSecMan.getUserOperations(tsUserName,
+                                          "IntegrationEveTv");
+        } catch (Exception loEx) {
+            throw new Exception(loEx.getMessage());
+        }
+        return lsResponse;
     }
 
     public String clearAction() {
@@ -140,7 +277,7 @@ public class LoginBean {
      */
     public String exitAppIntegraion() {
         String              lsAmDef =
-            "com.televisa.landamark.model.AppModuleImpl";
+            "mx.com.televisa.landamark.model.AppModuleImpl";
         String              lsConfig = "AppModuleLocal";
         ExternalContext     loEctx = 
             FacesContext.getCurrentInstance().getExternalContext();
@@ -191,6 +328,27 @@ public class LoginBean {
         new UtilFaces().hidePopup(getPoPopupExitConfirm());
         return null;
     }    
+    
+    
+    /**
+     * Obtiene permisos de Usuario en Security Manager 
+     * @autor Jorge Luis Bautista Santiago
+     * @return Usuario
+     */
+    public Usuario getSecmanUserPermission(String tsUserName) 
+    throws Exception {
+        Usuario          lsResponse = null;        
+        SecurityManagerWs loSecMan = new SecurityManagerWs();
+        try {
+            lsResponse = 
+                loSecMan.getSecmanUserDataSession(tsUserName,
+                                              "IntegrationEveTv");
+        } catch (Exception loEx) {
+            throw new Exception(loEx.getMessage());
+        }
+        return lsResponse;
+    }
+    
     /****************** SETTERS AND GETTERS ******************************/    
     
     public void setPoUserName(RichInputText poUserName) {

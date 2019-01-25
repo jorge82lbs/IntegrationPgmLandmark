@@ -9,12 +9,24 @@
 */
 package mx.com.televisa.landamark.view.secman;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.xml.ws.WebServiceRef;
 import javax.xml.ws.soap.SOAPFaultException;
 
 import mx.com.televisa.landamark.client.auth.SecmanBsAutenticar;
 import mx.com.televisa.landamark.client.auth.SecmanBsAutenticar_Service;
 import mx.com.televisa.landamark.client.auth.types.ProcessResponse;
 import mx.com.televisa.landamark.client.auth.types.UserLogin;
+import mx.com.televisa.landamark.client.operations.SecmanDasOperacionesUsuario;
+import mx.com.televisa.landamark.client.operations.SecmanDasOperacionesUsuarioService;
+import mx.com.televisa.landamark.client.userpermission.SecmanDasUsuarioPermisos;
+import mx.com.televisa.landamark.client.userpermission.SecmanDasUsuarioPermisosService;
+import mx.com.televisa.landamark.client.userpermission.types.PermisoOutputCollection;
+import mx.com.televisa.landamark.client.userpermission.types.PermisosUsuarioInputParameters;
+import mx.com.televisa.landamark.client.userpermission.types.Usuario;
 import mx.com.televisa.landamark.view.util.UtilFaces;
 
 /** Clase que hace uso de los servicios de Security Manager <br/>
@@ -28,6 +40,38 @@ import mx.com.televisa.landamark.view.util.UtilFaces;
 public class SecurityManagerWs {
     public SecurityManagerWs() {
         super();
+    }
+    /**
+     * Valida los permisos del usuario en la aplicacion 
+     * Aplicacion de Integracion con landmark
+     * @autor Jorge Luis Bautista Santiago
+     * @param tsUserName
+     * @param toApplication
+     * @return void
+     */
+    @WebServiceRef
+    private static SecmanDasUsuarioPermisosService loSmnUserPermissionService;
+    
+    public Usuario getSecmanUserDataSession(String tsUserName,
+                                            String toApplication){
+        Usuario loSecmanUser = new Usuario();
+        loSmnUserPermissionService = new SecmanDasUsuarioPermisosService();
+        try{
+    
+            SecmanDasUsuarioPermisos       loSmsUserPermission = 
+                loSmnUserPermissionService.getSecmanDasUsuarioPermisosPort();
+                
+            PermisosUsuarioInputParameters loUserInput = new PermisosUsuarioInputParameters();
+            loUserInput.setNomAplicacion(toApplication);
+            loUserInput.setUserName(tsUserName);
+            PermisoOutputCollection        loUserOutput = 
+                loSmsUserPermission.obtenerRolTareaPermisos(loUserInput);
+            loSecmanUser = loUserOutput.getUsuario();
+        }catch(Exception loEx){
+            System.out.println("ERROR " + loEx.getMessage());
+            loSecmanUser = null;
+        }
+        return loSecmanUser;
     }
     
     /**
@@ -125,5 +169,50 @@ public class SecurityManagerWs {
             throw new Exception (loEx.getMessage());
         }                        
     }
-    
+   
+    /**
+     * Devuelve la lista de operaciones que tiene el usuario en la aplicacion solicitada
+     * @autor Jorge Luis Bautista Santiago
+     * @param tsUserName
+     * @param tsApplication
+     * @return List
+    */  
+    @WebServiceRef
+    private static SecmanDasOperacionesUsuarioService poSecmanDasOperacionesUsuarioService;    
+    public List<String> getUserOperations(String tsUserName, 
+                                          String tsApplication
+                                          ) {
+        List<String> laOperations = new ArrayList<String>();
+        try {
+            poSecmanDasOperacionesUsuarioService = 
+                new SecmanDasOperacionesUsuarioService();
+            SecmanDasOperacionesUsuario              loSecmanDasOperacionesUsuario = 
+                poSecmanDasOperacionesUsuarioService.getSecmanDasOperacionesUsuarioPort();
+            
+            mx.com.televisa.landamark.client.operations.types.PermisosUsuarioInputParameters     loUserPermissions = 
+                new mx.com.televisa.landamark.client.operations.types.PermisosUsuarioInputParameters();
+            
+            loUserPermissions.setNomAplicacion(tsApplication);
+            loUserPermissions.setUserName(tsUserName);
+            
+            mx.com.televisa.landamark.client.operations.types.OperacionesUsuarioOutputParameters loUserOperations = 
+                loSecmanDasOperacionesUsuario.obtenerOperacionesUsuario(loUserPermissions);
+            mx.com.televisa.landamark.client.operations.types.OperacionesCollection              loOpCollection = 
+                loUserOperations.getOperacionesCollection();
+            Iterator                                                                                     loIterator;
+            loIterator = loOpCollection.getOperacion().iterator();
+            int                                                                                          liI = 0;
+            while (loIterator.hasNext()) {
+                mx.com.televisa.landamark.client.operations.types.Operacion psOperacion = 
+                    (mx.com.televisa.landamark.client.operations.types.Operacion)loIterator.next();
+                laOperations.add(psOperacion.getOperacionName().getOperacionName());
+                liI++;
+            }
+        } catch (Exception loEx) {
+            System.out.println ("Error al obtener Operaciones "+loEx.getMessage());
+            ;
+        }
+        return laOperations;
+    } 
+   
 }

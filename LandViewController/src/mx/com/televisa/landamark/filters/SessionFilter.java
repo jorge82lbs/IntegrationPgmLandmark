@@ -58,7 +58,7 @@ public class SessionFilter implements Filter {
         HttpSession        loSession = loHttpRequest.getSession();
         //System.out.println("Session - Host = " + toRequest.getServerName());
         //System.out.println("Session - Port = " + toRequest.getServerPort());
-        if (loSession.getAttribute("session.integration") == null) {
+        if (loSession.getAttribute("session.pgmIntegration") == null) {
             if(((HttpServletRequest)toRequest).getPathInfo().startsWith("/indexPage")) {}
             else {
                 try {
