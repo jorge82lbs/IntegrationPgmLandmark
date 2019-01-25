@@ -135,7 +135,7 @@
                       <af:panelStretchLayout id="PnlTempLn_3" 
                                              inlineStyle="border-style:none; background-color:#FF801A; height:1px;"
                                              styleClass="AFStretchWidth"/>
-                      <af:popup id="PopSalir" contentDelivery="lazyUncached">
+                      <af:popup id="PopSalir" contentDelivery="lazyUncached" binding="#{LoginBean.poPopupExitConfirm}">
                             <af:panelWindow id="PnlSalir" 
                                             inlineStyle="border-style:none;"
                                             modal="true" 
@@ -158,12 +158,13 @@
                                                         halign="center">
                                         <af:button text="Aceptar" 
                                                    id="BtnSalirAceptar"
+                                                   action="#{LoginBean.exitAppIntegraion}"
                                                    icon="/images/aceptar.gif"
                                                    />
                                         <af:spacer width="10" height="25" id="SpcLoadOrder11Salir"/>
                                         <af:button text="Cancelar" 
                                                    id="BtnSalirCancelar"
-                                                   
+                                                   action="#{LoginBean.cancelExitAppIntegraion}"
                                                    icon="/images/cancelar.gif"/>
                                     </af:panelGroupLayout>                  
                                 </af:panelGroupLayout>

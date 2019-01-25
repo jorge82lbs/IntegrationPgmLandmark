@@ -127,4 +127,15 @@
     <extension>amf</extension>
     <mime-type>application/x-amf</mime-type>
   </mime-mapping>
+  
+  <welcome-file-list>
+      <welcome-file>/faces/indexPage</welcome-file>
+   </welcome-file-list>
+  <resource-ref>
+      <description>Integration Paradigm Data Source</description>
+      <res-ref-name>jdbc/MOR_DS_PG1</res-ref-name>
+      <res-type>javax.sql.DataSource</res-type>
+      <res-auth>Container</res-auth>
+   </resource-ref>
+  
 </web-app>

@@ -3,7 +3,5 @@
 *.class
 *.ear
 *.war
-.data/
-deploy/
-
-
+*.tmp
+*.jdb

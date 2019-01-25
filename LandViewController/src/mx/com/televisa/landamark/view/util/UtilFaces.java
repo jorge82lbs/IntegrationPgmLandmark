@@ -64,11 +64,11 @@ import sun.misc.BASE64Encoder;
  */
 public class UtilFaces {
     
-    String gsAmDef = "com.televisa.integration.model.AppModuleIntergrationImpl";
-    String gsConfig = "AppModuleIntergrationLocal";
+    //JLBSString gsAmDef = "com.televisa.integration.model.AppModuleIntergrationImpl";
+    //JLBSString gsConfig = "AppModuleIntergrationLocal";
     
     /**
-     * Muestra popup genérico en pantalla
+     * Muestra popup generico en pantalla
      * @autor Jorge Luis Bautista Santiago  
      * @param toPopup
      * @return void
@@ -365,7 +365,7 @@ public class UtilFaces {
     * @return String
     */
     public String getKeyDecoder() {
-        String                    lsKey = "";        
+        String                    lsKey = "LFXqSn21ptd+rNihAuZeMg==";        
         /*ApplicationModule         loAm =
             Configuration.createRootApplicationModule(gsAmDef, gsConfig);
         AppModuleImpl loService = (AppModuleImpl)loAm;
