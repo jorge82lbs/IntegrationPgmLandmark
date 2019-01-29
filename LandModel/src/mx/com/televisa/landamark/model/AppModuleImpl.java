@@ -1,5 +1,18 @@
 package mx.com.televisa.landamark.model;
 
+import java.sql.Blob;
+import java.sql.Timestamp;
+
+import java.util.Map;
+
+import mx.com.televisa.landamark.model.types.LmkIntConfigParamRowBean;
+
+import mx.com.televisa.landamark.model.types.LmkIntMappingCatRowBean;
+import mx.com.televisa.landamark.model.types.LmkIntXmlFilesRowBean;
+
+import oracle.adf.share.ADFContext;
+
+import oracle.jbo.Row;
 import oracle.jbo.server.ApplicationModuleImpl;
 import oracle.jbo.server.ViewObjectImpl;
 // ---------------------------------------------------------------------
@@ -14,6 +27,394 @@ public class AppModuleImpl extends ApplicationModuleImpl {
      */
     public AppModuleImpl() {
     }
+    
+    /**
+     * Obtiene fecha actual en java.sql.Timestamp
+     * @autor Jorge Luis Bautista Santiago  
+     * @return Timestamp
+     */
+    public Timestamp getCurrentTimestamp(){
+        Timestamp ltTimestamp = new Timestamp(System.currentTimeMillis());
+        return ltTimestamp;
+    }
+    
+    /**
+     * Obtiene la session de un atributo especificado
+     * @autor Jorge Luis Bautista Santiago  
+     * @param psAttributte
+     * @return String
+     */
+    public String getValueSessionFromAttribute(String psAttributte){        
+       String lsAtributte = "";
+       Map sessionScope = ADFContext.getCurrent().getSessionScope();
+       lsAtributte = (String)sessionScope.get(psAttributte);
+       return lsAtributte;
+    }
+    
+    /**
+     * Obtiene llave para codificacion y decodificacion del servicio</br>
+     * de Autenticacon de Secman
+     * @autor Jorge Luis Bautista Santiago  
+     * @return String
+     */
+    public String getKeyDecoderUserFromDb(){
+        String lsValue = "";
+        LmkIntConfigParamTabViewImpl loTbl = getLmkIntConfigParamTabView1();
+        String lsWhere = "UPPER(NOM_PARAMETER) = 'KEY'";
+        loTbl.setWhereClause(lsWhere);
+        loTbl.setRangeSize(-1);
+        loTbl.executeQuery();
+        Row[] laAu = loTbl.getAllRowsInRange();
+        if (laAu.length > 0) {
+            Row loRow = laAu[0];
+            LmkIntConfigParamTabViewRowImpl r =
+                (LmkIntConfigParamTabViewRowImpl)loRow;
+            lsValue = r.getIndValueParameter();
+        }
+        return lsValue;
+    }
+    
+    /**
+     * Obtiene Valore del parametro generalo</br>
+     * en base al nombre del parametro
+     * @autor Jorge Luis Bautista Santiago  
+     * @return String
+     */
+    public Blob getBlobFileXml(String tsIdRequest, 
+                               String tsIdService, 
+                               String tsFileType
+                               ){
+        Blob lsValue = null;
+        try{
+            LmkIntXmlFilesTabViewImpl loObject = getLmkIntXmlFilesTabView1();
+            //String lsWhere = "ID_FILE_XML = 203";//+tsIdService+"";
+            String lsWhere = "ID_REQUEST = " + tsIdRequest + 
+                             " AND ID_SERVICE = "+tsIdService+
+                             " AND IND_FILE_TYPE = '" + tsFileType + "'";
+            loObject.setWhereClause(lsWhere);
+            //System.out.println(loObject.getQuery());
+            loObject.setRangeSize(-1);
+            loObject.executeQuery();
+            Row[] laObjs = loObject.getAllRowsInRange();
+            if (laObjs.length > 0) {
+                Row loRow = laObjs[0];
+                LmkIntXmlFilesTabViewRowImpl loPgen =
+                    (LmkIntXmlFilesTabViewRowImpl)loRow;
+                lsValue = loPgen.getIndFileStream();
+            }else{
+                System.out.println("blob 2 no encontrado!!");
+            }
+        }catch(Exception loEx){
+            System.out.println("blob 2 found ERROR!!"+loEx.getMessage());
+        }
+        return lsValue;
+    }
+    
+    /**
+     * Obtiene Valore del parametro generalo</br>
+     * en base al nombre del parametro
+     * @autor Jorge Luis Bautista Santiago  
+     * @return String
+     */
+    public Blob getBlobFile(Integer tiIdRequest, 
+                            Integer piIdService,
+                            String lsType){
+        Blob lsValue = null;
+        LmkIntXmlFilesTabViewImpl    loObject = 
+            getLmkIntXmlFilesTabView1();
+        String lsWhere = "ID_REQUEST = " + tiIdRequest +
+                        " AND ID_SERVICE = " + piIdService + 
+                        " AND IND_FILE_TYPE = '"+lsType+"'";
+        loObject.setWhereClause(lsWhere);
+        loObject.setRangeSize(-1);
+        loObject.executeQuery();
+        Row[] laObjs = loObject.getAllRowsInRange();
+        if (laObjs.length > 0) {
+            Row loRow = laObjs[0];
+            LmkIntXmlFilesTabViewRowImpl loPgen =
+                (LmkIntXmlFilesTabViewRowImpl)loRow;
+            lsValue = loPgen.getIndFileStream();
+        }
+        return lsValue;
+    }
+    
+    /**
+     * Obtiene Row de tabla de Cron Config
+     * @autor Jorge Luis Bautista Santiago  
+     * @param piIdService, 
+     * @return EvetvIntCronConfigTabRowBean
+     */
+    public LmkIntXmlFilesRowBean getRowXmlFilesModel(Integer tiIdRequest, 
+                                                       Integer piIdService,
+                                                       String lsType) {   
+        LmkIntXmlFilesRowBean loRowResponse = new LmkIntXmlFilesRowBean();     
+       try {
+            LmkIntXmlFilesTabViewImpl    loObj = 
+                getLmkIntXmlFilesTabView1();
+            String lsWhere = "ID_REQUEST = " + tiIdRequest + 
+                            " AND ID_SERVICE = " + piIdService + 
+                            " AND IND_FILE_TYPE = '"+lsType+"'";
+            loObj.setWhereClause(lsWhere);                      
+            //System.out.println(loObj.getQuery());
+            loObj.setRangeSize(-1);
+            loObj.executeQuery();         
+            Row[] laRows = loObj.getAllRowsInRange();     
+           if (laRows.length > 0) {
+                Row loRow = laRows[0];
+                LmkIntXmlFilesTabViewRowImpl loRowView = 
+                   (LmkIntXmlFilesTabViewRowImpl)loRow;     
+               loRowResponse.setLiIdFileXml(loRowView.getIdFileXml());
+               loRowResponse.setLiIdRequest(loRowView.getIdRequest());
+               loRowResponse.setLiIdService(loRowView.getIdService());
+               loRowResponse.setLsIndServiceType(loRowView.getIndServiceType());
+               loRowResponse.setLsIndEstatus(loRowView.getIndEstatus());
+               //loRowResponse.setLsFecCreationDate(loRowView.getFecCreationDate());
+               loRowResponse.setLsNomFile(loRowView.getNomFile());
+               loRowResponse.setLsNomUserName(loRowView.getNomUserName());
+               //loRowResponse.setLoIndFileStream(loRowView.getIndFileStream());
+           }else{
+               System.out.println("blob no encontrado!!");
+               loRowResponse.setLiIdFileXml(0);
+               loRowResponse.setLiIdRequest(0);
+               loRowResponse.setLiIdService(0);
+               loRowResponse.setLsIndServiceType("Error");
+               loRowResponse.setLsIndEstatus("E");               
+               loRowResponse.setLsNomFile("Error");
+               loRowResponse.setLsNomUserName("Error");
+           }
+        } catch (Exception loEx) {
+            System.out.println("blob found ERROR!!"+loEx.getMessage());
+            loRowResponse = null;
+        }finally{                        
+            getDBTransaction().commit();    
+        }   
+       return loRowResponse;
+    }
+    
+    /******************************* Mapeo *************************************/
+    /**
+     * Insert en tabla de Mapeo
+     * @autor Jorge Luis Bautista Santiago  
+     * @param toLmkBean
+     * @return void
+     */
+    public void insertMappingModel(LmkIntMappingCatRowBean toLmkBean) {        
+        LmkIntMappingCatTabViewImpl    loObj = 
+            getLmkIntMappingCatTabView1();
+        
+        LmkIntMappingCatTabViewRowImpl loRow = 
+            (LmkIntMappingCatTabViewRowImpl)loObj.createRow();        
+        try {
+            loRow.setIdMapping(toLmkBean.getLiIdMapping());
+            loRow.setNomRelation(toLmkBean.getLsNomRelation());
+            loRow.setNomOrigin(toLmkBean.getLsNomOrigin());
+            loRow.setNomDestiny(toLmkBean.getLsNomDestiny());
+            loRow.setValValueRelation(toLmkBean.getLsValValueRelation());
+            loRow.setValValueOrigin(toLmkBean.getLsValValueOrigin());
+            loRow.setValValueDestiny(toLmkBean.getLsValValueDestiny());
+            loRow.setIndSysSystem(toLmkBean.getLsIndSysSystem());
+            loRow.setIndSysOrigin(toLmkBean.getLsIndSysOrigin());
+            loRow.setIndSysDestiny(toLmkBean.getLsIndSysDestiny());
+            loRow.setIndDescription(toLmkBean.getLsIndDescription());
+            loRow.setIdMappingRel(toLmkBean.getLiIdMappingRel());                        
+            
+            loRow.setIndEstatus(toLmkBean.getLsIndEstatus());           
+            loRow.setFecCreationDate(getCurrentTimestamp());
+            loRow.setFecLastUpdateDate(getCurrentTimestamp());
+            loRow.setAttribute15(getValueSessionFromAttribute("loggedPgmIntegrationUser"));
+            loRow.setNumCreatedBy(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+            loRow.setNumLastUpdateLogin(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+            loRow.setNumLastUpdatedBy(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+            loObj.insertRow(loRow);          
+        } catch (Exception loEx) {
+            System.out.println("Insert ERROR!!"+loEx.getMessage());
+        }finally{                        
+            getDBTransaction().commit();    
+        }           
+    }
+    
+    /**
+     * Update en tabla de Mapeo
+     * @autor Jorge Luis Bautista Santiago  
+     * @param toLmkBean
+     * @return void
+     */
+    public void updateMappingModel(LmkIntMappingCatRowBean toLmkBean) { 
+        try {
+            
+            LmkIntMappingCatTabViewImpl    loObj = 
+                getLmkIntMappingCatTabView1();            
+            loObj.setWhereClause("ID_MAPPING = " + toLmkBean.getLiIdMapping());
+            loObj.setRangeSize(-1);
+            loObj.executeQuery();            
+            Row[] laRows = loObj.getAllRowsInRange();     
+            if (laRows.length > 0) {
+               Row loRowAr = loObj.getAllRowsInRange()[0];
+               LmkIntMappingCatTabViewRowImpl loRow = 
+                   (LmkIntMappingCatTabViewRowImpl)loRowAr;
+                
+                //loRow.setIdMapping(toLmkBean.getLiIdMapping());
+                loRow.setNomRelation(toLmkBean.getLsNomRelation());
+                loRow.setNomOrigin(toLmkBean.getLsNomOrigin());
+                loRow.setNomDestiny(toLmkBean.getLsNomDestiny());
+                loRow.setValValueRelation(toLmkBean.getLsValValueRelation());
+                loRow.setValValueOrigin(toLmkBean.getLsValValueOrigin());
+                loRow.setValValueDestiny(toLmkBean.getLsValValueDestiny());
+                loRow.setIndSysSystem(toLmkBean.getLsIndSysSystem());
+                loRow.setIndSysOrigin(toLmkBean.getLsIndSysOrigin());
+                loRow.setIndSysDestiny(toLmkBean.getLsIndSysDestiny());
+                loRow.setIndDescription(toLmkBean.getLsIndDescription());
+                loRow.setIdMappingRel(toLmkBean.getLiIdMappingRel());
+                loRow.setIndEstatus(toLmkBean.getLsIndEstatus());           
+                loRow.setFecCreationDate(getCurrentTimestamp());
+                loRow.setFecLastUpdateDate(getCurrentTimestamp());
+                loRow.setAttribute15(getValueSessionFromAttribute("loggedPgmIntegrationUser"));
+                loRow.setNumCreatedBy(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+                loRow.setNumLastUpdateLogin(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+                loRow.setNumLastUpdatedBy(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+            }//loObj.insertRow(loRow);          
+        } catch (Exception loEx) {
+            System.out.println("Insert ERROR!!"+loEx.getMessage());
+        }finally{                        
+            getDBTransaction().commit();    
+        }           
+    }
+    
+    /**
+     * Delete en tabla de Mapeo
+     * @autor Jorge Luis Bautista Santiago  
+     * @param piIdMapping     
+     * @return void
+     */
+    public void deleteMappingModel(Integer piIdMapping) {      
+        try {
+            LmkIntMappingCatTabViewImpl    loObj = 
+                getLmkIntMappingCatTabView1();            
+            loObj.setWhereClause("ID_MAPPING = " + piIdMapping);
+            loObj.setRangeSize(-1);
+            loObj.executeQuery();            
+            Row[] laRows = loObj.getAllRowsInRange();            
+            if (laRows.length > 0) {
+                for(int liI = 0; liI < laRows.length; liI++){
+                    Row loRow = laRows[liI];
+                    LmkIntMappingCatTabViewRowImpl loRowDelete = (LmkIntMappingCatTabViewRowImpl)loRow;           
+                    try{       
+                        loRowDelete.remove();
+                    }catch(Exception loExInt){
+                        System.out.println("Delete interno ERROR!!"+loExInt.getMessage());
+                    }                    
+                }
+            } 
+        } catch (Exception loEx) {
+            System.out.println("Delete ERROR!!"+loEx.getMessage());
+        }finally{                        
+            getDBTransaction().commit();    
+        }  
+    }
+    
+    
+    /******************************* Parametros generales *************************************/
+    
+    /**
+     * Insert en tabla de Parametros generales
+     * @autor Jorge Luis Bautista Santiago  
+     * @param toLmkBean
+     * @return void
+     */
+    public void insertGeneralParameterModel(LmkIntConfigParamRowBean toLmkBean) {        
+        LmkIntConfigParamTabViewImpl    loObj = 
+            getLmkIntConfigParamTabView1();
+        LmkIntConfigParamTabViewRowImpl loNewRow = 
+            (LmkIntConfigParamTabViewRowImpl)loObj.createRow();        
+        try {
+            loNewRow.setIdParameter(toLmkBean.getLsIdParameter());
+            loNewRow.setNomParameter(toLmkBean.getLsNomParameter());
+            loNewRow.setIndDescParameter(toLmkBean.getLsDescParameter());
+            loNewRow.setIndUsedBy(toLmkBean.getLsUsedBy());
+            loNewRow.setIndValueParameter(toLmkBean.getLsValueParameter());
+            loNewRow.setIndEstatus(toLmkBean.getLsStatus());           
+            loNewRow.setFecCreationDate(getCurrentTimestamp());
+            loNewRow.setFecLastUpdateDate(getCurrentTimestamp());
+            loNewRow.setAttribute15(getValueSessionFromAttribute("loggedPgmIntegrationUser"));
+            loNewRow.setNumCreatedBy(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+            loNewRow.setNumLastUpdateLogin(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+            loNewRow.setNumLastUpdatedBy(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+            loObj.insertRow(loNewRow);          
+        } catch (Exception loEx) {
+            System.out.println("Insert ERROR!!"+loEx.getMessage());
+        }finally{                        
+            getDBTransaction().commit();    
+        }           
+    }
+    
+    /**
+     * Delete en tabla de Parametros generales
+     * @autor Jorge Luis Bautista Santiago  
+     * @param piIdParameter     
+     * @return void
+     */
+    public void deleteGeneralParameterModel(Integer piIdParameter) {      
+        try {
+            LmkIntConfigParamTabViewImpl    loObj = 
+                getLmkIntConfigParamTabView1();
+            loObj.setWhereClause("ID_PARAMETER = " + piIdParameter);
+            loObj.setRangeSize(-1);
+            loObj.executeQuery();            
+            Row[] laRows = loObj.getAllRowsInRange();            
+            if (laRows.length > 0) {
+                for(int liI = 0; liI < laRows.length; liI++){
+                    Row loRow = laRows[liI];
+                    LmkIntConfigParamTabViewRowImpl loRowDelete = (LmkIntConfigParamTabViewRowImpl)loRow;           
+                    try{       
+                        loRowDelete.remove();
+                    }catch(Exception loExInt){
+                        System.out.println("Delete interno ERROR!!"+loExInt.getMessage());
+                    }                    
+                }
+            } 
+        } catch (Exception loEx) {
+            System.out.println("Delete ERROR!!"+loEx.getMessage());
+        }finally{                        
+            getDBTransaction().commit();    
+        }  
+    }
+    
+    /**
+     * Update en tabla de Parametros generales
+     * @autor Jorge Luis Bautista Santiago  
+     * @param toLmkBean
+     * @return void
+     */
+    public void updateGeneralParameterModel(LmkIntConfigParamRowBean toLmkBean) {   
+     
+       try {
+            LmkIntConfigParamTabViewImpl    loObj = 
+                getLmkIntConfigParamTabView1();
+            loObj.setWhereClause("ID_PARAMETER = " + toLmkBean.getLsIdParameter());
+            loObj.setRangeSize(-1);
+            loObj.executeQuery();            
+            Row[] laRows = loObj.getAllRowsInRange();     
+           if (laRows.length > 0) {
+                Row loRow = loObj.getAllRowsInRange()[0];
+               LmkIntConfigParamTabViewRowImpl loUpdRow = 
+                   (LmkIntConfigParamTabViewRowImpl)loRow;
+               loUpdRow.setIdParameter(toLmkBean.getLsIdParameter());
+               loUpdRow.setNomParameter(toLmkBean.getLsNomParameter());
+               loUpdRow.setIndDescParameter(toLmkBean.getLsDescParameter());
+               loUpdRow.setIndUsedBy(toLmkBean.getLsUsedBy());
+               loUpdRow.setIndValueParameter(toLmkBean.getLsValueParameter());
+               loUpdRow.setIndEstatus(toLmkBean.getLsStatus());
+               loUpdRow.setFecLastUpdateDate(getCurrentTimestamp());
+               loUpdRow.setAttribute14(getValueSessionFromAttribute("loggedIntegrationUser"));
+               loUpdRow.setNumLastUpdateLogin(Integer.parseInt(getValueSessionFromAttribute("loggedIntegrationIdUser")));
+               loUpdRow.setNumLastUpdatedBy(Integer.parseInt(getValueSessionFromAttribute("loggedIntegrationIdUser"))); 
+           }           
+        } catch (Exception loEx) {
+            System.out.println("Update ERROR!!"+loEx.getMessage());
+        }finally{                        
+            getDBTransaction().commit();    
+        }   
+    }
 
     /**
      * Container's getter for EvetvIntConfigParamTabView1.
@@ -21,6 +422,102 @@ public class AppModuleImpl extends ApplicationModuleImpl {
      */
     public ViewObjectImpl getEvetvIntConfigParamTabView1() {
         return (ViewObjectImpl) findViewObject("EvetvIntConfigParamTabView1");
+    }
+
+    /**
+     * Container's getter for LmkIntConfigParamTabView1.
+     * @return LmkIntConfigParamTabView1
+     */
+    public LmkIntConfigParamTabViewImpl getLmkIntConfigParamTabView1() {
+        return (LmkIntConfigParamTabViewImpl) findViewObject("LmkIntConfigParamTabView1");
+    }
+
+    /**
+     * Container's getter for LmkIntCronConfigTabView1.
+     * @return LmkIntCronConfigTabView1
+     */
+    public ViewObjectImpl getLmkIntCronConfigTabView1() {
+        return (ViewObjectImpl) findViewObject("LmkIntCronConfigTabView1");
+    }
+
+    /**
+     * Container's getter for LmkIntMappingCatTabView1.
+     * @return LmkIntMappingCatTabView1
+     */
+    public LmkIntMappingCatTabViewImpl getLmkIntMappingCatTabView1() {
+        return (LmkIntMappingCatTabViewImpl) findViewObject("LmkIntMappingCatTabView1");
+    }
+
+    /**
+     * Container's getter for LmkIntNotificationsTabView1.
+     * @return LmkIntNotificationsTabView1
+     */
+    public ViewObjectImpl getLmkIntNotificationsTabView1() {
+        return (ViewObjectImpl) findViewObject("LmkIntNotificationsTabView1");
+    }
+
+    /**
+     * Container's getter for LmkIntRequestsTabView1.
+     * @return LmkIntRequestsTabView1
+     */
+    public ViewObjectImpl getLmkIntRequestsTabView1() {
+        return (ViewObjectImpl) findViewObject("LmkIntRequestsTabView1");
+    }
+
+    /**
+     * Container's getter for LmkIntServiceBitacoraTabView1.
+     * @return LmkIntServiceBitacoraTabView1
+     */
+    public ViewObjectImpl getLmkIntServiceBitacoraTabView1() {
+        return (ViewObjectImpl) findViewObject("LmkIntServiceBitacoraTabView1");
+    }
+
+    /**
+     * Container's getter for LmkIntServicesCatTabView1.
+     * @return LmkIntServicesCatTabView1
+     */
+    public ViewObjectImpl getLmkIntServicesCatTabView1() {
+        return (ViewObjectImpl) findViewObject("LmkIntServicesCatTabView1");
+    }
+
+    /**
+     * Container's getter for LmkIntServicesLogTabView1.
+     * @return LmkIntServicesLogTabView1
+     */
+    public ViewObjectImpl getLmkIntServicesLogTabView1() {
+        return (ViewObjectImpl) findViewObject("LmkIntServicesLogTabView1");
+    }
+
+    /**
+     * Container's getter for LmkIntServicesParamsTabView1.
+     * @return LmkIntServicesParamsTabView1
+     */
+    public ViewObjectImpl getLmkIntServicesParamsTabView1() {
+        return (ViewObjectImpl) findViewObject("LmkIntServicesParamsTabView1");
+    }
+
+    /**
+     * Container's getter for LmkIntXmlFilesTabView1.
+     * @return LmkIntXmlFilesTabView1
+     */
+    public LmkIntXmlFilesTabViewImpl getLmkIntXmlFilesTabView1() {
+        return (LmkIntXmlFilesTabViewImpl) findViewObject("LmkIntXmlFilesTabView1");
+    }
+
+    /**
+     * Container's getter for LmkIntServicesBitacoraVwView1.
+     * @return LmkIntServicesBitacoraVwView1
+     */
+    public ViewObjectImpl getLmkIntServicesBitacoraVwView1() {
+        return (ViewObjectImpl) findViewObject("LmkIntServicesBitacoraVwView1");
+    }
+
+    /**
+     * Container's getter for LmkIntMappingCatVwView1.
+     * @return LmkIntMappingCatVwView1
+     */
+    public ViewObjectImpl getLmkIntMappingCatVwView1() {
+        return (ViewObjectImpl) findViewObject("LmkIntMappingCatVwView1");
     }
 }
 

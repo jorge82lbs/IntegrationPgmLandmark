@@ -51,7 +51,7 @@
                                        halign="end">
                       <af:spacer height="1" width="15" id="SpcAlto"/>
                       <af:outputLabel value="Inicio de sesión: #{UserInfoBean.psDateTimeLogin}" id="LblTemp_8"
-                                      inlineStyle="color:#E17521;"/>                      
+                                      inlineStyle="color:#E17521; font-weight:bold;"/>                      
                   </af:panelGroupLayout>
               </f:facet>
                 <f:facet name="bottom">
@@ -92,29 +92,33 @@
                           <af:menuBar id="MnuTempBar" 
                                       inlineStyle="border-style:none;">
                             <af:group id="GrpTempMnu">
-                              <af:commandMenuItem id="MnuTemp1" text="Inicio"
+                                        <af:commandMenuItem id="MnuTemp1" text="Inicio"
                                                             action="homePage" 
                                                             shortDesc="Inicio" 
                                                             icon="/images/home16x16.png"/>
-                                                            
-                                        <af:commandMenuItem id="MnuTemp2" text="Monitoreo de Servicios"
+                                        <af:commandMenuItem id="MnuTemp2" text="Monitoreo"
                                                             action="monitorPage"
-                                                            shortDesc="Monitoreo de Servicios" 
-                                                            icon="/images/monitor16x16.png"/>
+                                                            shortDesc="Monitoreo" 
+                                                            icon="/images/icon_monitor_pc.gif"/>
                                                             
-                                        <af:commandMenuItem id="MnuTemp7" text="Configuración de Servicios" 
-                                                            shortDesc="Configuración de Servicios" 
-                                                            action="servicesConfigPage"                                                            
-                                                            icon="/images/ws16x16.png"/>
+                                        <af:commandMenuItem id="MnuTemp7" text="Configuración y Ejecución" 
+                                                            shortDesc="Configuración" 
+                                                            action="processPage"                                                            
+                                                            icon="/images/icon_world_dynamic.gif"/>
                                                   
-                                        <af:commandMenuItem id="MnuTemp12" text="Configuración de Parámetros" 
-                                                            shortDesc="Configuración de Parámetros"
-                                                            action="parametersConfigPage"
-                                                            icon="/images/where16x16.png"/>
+                                        <af:commandMenuItem id="MnuTemp12" text="Mapeo de Parámetros" 
+                                                            shortDesc="Mapeo"
+                                                            action="mappingPage"
+                                                            icon="/images/refresh.gif"/>
+                                                            
+                                         <af:commandMenuItem id="MnuTemp121s" text="Notificaciones" 
+                                                            shortDesc="Notificaciones"
+                                                            action="notificationsPage"
+                                                            icon="/images/notifications216x16.png"/>
                                  
                                         <af:commandMenuItem id="MnuTemp121" text="Parámetros Generales" 
                                                             shortDesc="Parámetros Generales"
-                                                            action="generalConfigPage"
+                                                            action="gralConfigPage"
                                                             icon="/images/grales16x16.png"/>
                                         
                                         <af:commandMenuItem id="MnuTemp1212" text="Bitácora" 

@@ -3,7 +3,7 @@
           xmlns:af="http://xmlns.oracle.com/adf/faces/rich">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <f:view>
-        <af:document title="Integración Paradigm-Landmark" id="d1" smallIconSource="/images/Activity-Monitor-icon2.png"
+        <af:document title="Integración Paradigm-Landmark" id="d1" smallIconSource="/images/monitor-arrow-icon.png"
                      initialFocusId="TxtUsuario" inlineStyle='background-image:url("images/background-07.jpg");'>
             <af:form id="FrmLogin" defaultCommand="BtnIngresar">
                 <af:resource type="javascript">

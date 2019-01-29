@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:af="http://xmlns.oracle.com/adf/faces/rich">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <f:view>
+        <af:document title="Monitoreo" id="d1" smallIconSource="/images/monitor-arrow-icon.png">
+            <af:form id="f1">
+            <af:resource type="javascript">
+                    function enforcePreventUserInput(evt) {                    
+                        var popup = AdfPage.PAGE.findComponentByAbsoluteId('p1oadLogin');
+                        if (popup != null) {
+                            AdfPage.PAGE.addBusyStateListener(popup, handleBusyState);
+                            evt.preventUserInput();
+                        }
+                    }
+                
+                    function handleBusyState(evt) {
+                        var popup = AdfPage.PAGE.findComponentByAbsoluteId('p1oadLogin');
+                        if (popup != null) {
+                            if (evt.isBusy()) {
+                                popup.show();
+                            }
+                            else {
+                                popup.hide();
+                                AdfPage.PAGE.removeBusyStateListener(popup, handleBusyState);
+                            }
+                        }
+                    }        
+                </af:resource>
+                <af:pageTemplate viewId="/templates/pgmLandTemplate.jspx" id="pt1">
+                    <f:facet name="content">
+                     <af:panelGroupLayout layout="scroll" id="PnlCont"
+                                             inlineStyle="border-style:none;">
+                            <af:panelHeader text="Monitoreo" id="PnlHead"
+                                type="default"
+                                messageType="none"
+                                shortDesc="Monitoreo"
+                                inlineStyle="border-style:none; font-size:small;">
+                            <f:facet name="toolbar">
+                                <af:statusIndicator id="StiIndicator" shortDesc="Status Indicator"/>
+                            </f:facet>
+                            </af:panelHeader>
+                            <af:separator id="sepTitle"/>
+                            <af:panelGroupLayout layout="horizontal" id="PnlGpTbl" styleClass="AFStretchWidth"
+                                                 valign="top" halign="left" 
+                                                 inlineStyle="border-style:none; height:415px;">
+                            <af:panelSplitter id="PnlSpliMain" splitterPosition="302"
+                                      inlineStyle="width:1350px; "
+                                      collapsed="false"
+                                      firstBorder="skin">
+                                <f:facet name="first">
+                                    <af:panelGroupLayout layout="scroll" halign="center"
+                                                         xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+                                                         id="PnlGpAln">
+                                          <af:outputFormatted value="Opciones de Búsqueda" id="LblBsc"
+                                                            inlineStyle="color:Olive; font-weight:bold;
+                                                            font-size:small; text-align:left;"/>
+                                        <af:separator id="sdedew"/>
+                                        <af:panelGroupLayout layout="horizontal" id="PnlUtil" halign="right"
+                                                            inlineStyle="border-style:none;">
+                                            <af:link text=" " id="BtnReset" 
+                                                                icon="/images/action_refresh_blue.gif"
+                                                                partialSubmit="true"
+                                                                shortDesc="Reiniciar valores de búsqueda"
+                                                     actionListener="#{MonitorBean.resetFilterValues}">
+                                            </af:link>
+                                            <af:spacer id="SpcAx" width="10" height="5"/>
+                                            <!--
+                                            <af:link icon="/images/excel.gif"
+                                                               id="LnkExel"
+                                                               inlineStyle="text-align:center;"                                                   
+                                                               shortDesc="Exportar a Excel">
+                                                <af:exportCollectionActionListener exportedId="tblLog"
+                                                                           type="excelHTML"
+                                                                           filename="LogXLS.xls"/>
+                                            </af:link>
+                                            -->
+                                            <af:spacer id="SpcAxTbl" width="10" height="5"/>
+                                            <af:link text=" " id="BtnResetTbl"
+                                                            icon="/images/restaurar.gif" 
+                                                            shortDesc="Reiniciar tabla"
+                                                     action="#{MonitorBean.refreshMainTable}">
+                                            </af:link>
+                                        </af:panelGroupLayout>
+                                        <af:panelFormLayout id="PnlSearch" rows="14"
+                                                          maxColumns="1">
+                                            <af:selectOneChoice unselectedLabel="-- Seleccione --"
+                                                                label="Servicio Web"
+                                                                binding="#{MonitorBean.poFilterServiceSel}"
+                                                                shortDesc="Servicio Web"
+                                                                partialTriggers="BtnReset"
+                                                                id="soc1">
+                                                <f:selectItems value="#{MonitorBean.listWebServices}" id="sid1"/>
+                                            </af:selectOneChoice>
+                                            <af:inputText label="idServiceFilter"                                                  
+                                                  id="TxtFilterIdService"
+                                                  visible="false"
+                                                  partialTriggers="soc1 BtnReset"
+                                                  binding="#{MonitorBean.poFilterIdService}"/>
+                                                  
+                                            <af:selectOneChoice unselectedLabel="-- Seleccione --"
+                                                                label="Proceso"
+                                                                shortDesc="Proceso"
+                                                                binding="#{MonitorBean.poFilterProcessSel}" 
+                                                                partialTriggers="BtnReset"
+                                                                id="soc4">
+                                                <f:selectItems value="#{MonitorBean.listProcess}" id="sid1s"/>
+                                            </af:selectOneChoice>
+                                         
+                                         <af:inputDate label="Fecha Incial" 
+                                                       partialTriggers="BtnReset" 
+                                                       id="TxtFilterFecIni" 
+                                                       columns="9" 
+                                                       binding="#{MonitorBean.poInitialDate}"
+                                                       valueChangeListener="#{MonitorBean.validateDateListener}" 
+                                                       autoSubmit="true">
+                                            <af:convertDateTime pattern="yyyy-MM-dd" secondaryPattern="yyyy/MM/dd"/>
+                                          </af:inputDate>
+                                          <af:inputDate label="Fecha Final"
+                                                       partialTriggers="BtnReset" 
+                                                       id="TxtFilterFecFin" 
+                                                       columns="9" 
+                                                       binding="#{MonitorBean.poFinalDate}"
+                                                       valueChangeListener="#{MonitorBean.validateFinalDateListener}" 
+                                                       autoSubmit="true">
+                                            <af:convertDateTime pattern="yyyy-MM-dd" secondaryPattern="yyyy/MM/dd"/>
+                                          </af:inputDate>
+                                        <af:spacer width="10" height="10" id="s33"/>
+                                        <af:button text="Buscar por Filtros"
+                                                  id="BtnSearch"
+                                                  icon="/images/ver_orden.gif"
+                                                  shortDesc="Buscar Elementos"
+                                                  action="#{MonitorBean.searchFilterLogServicesAction}"/>
+                                        </af:panelFormLayout>
+                                    </af:panelGroupLayout>
+                                  </f:facet>
+                                  <f:facet name="second">
+                          <!-- ################################### TABLA PRINCIPAL ############################### !-->
+                               <!-- Crear Vista -->
+                            </f:facet>
+                            </af:panelSplitter>
+                            </af:panelGroupLayout>
+                        </af:panelGroupLayout>     
+                    </f:facet>
+                </af:pageTemplate>
+                <!-- ################################### POPUP LOADING .... ##################################### !-->
+                <af:popup id="popLoading" contentDelivery="immediate">
+                  <af:dialog id="dlgLoading" type="none" title="Procesando Información" closeIconVisible="false">
+                    <af:panelGroupLayout id="PnlLoading" layout="vertical" halign="center">
+                      <af:image source="/images/upload_file.gif" id="ImgIdxLoad" shortDesc="Espere..."/>
+                      <af:outputText value="... por favor espere." id="LblIdxLoad1Login"/>
+                    </af:panelGroupLayout>
+                  </af:dialog>
+                </af:popup>
+            </af:form>
+        </af:document>
+    </f:view>
+</jsp:root>

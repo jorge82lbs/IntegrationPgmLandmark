@@ -13,9 +13,9 @@
       <property
          name="exceptionHandler">false</property>
       <property
-         name="y">274.79883</property>
+         name="y">211.09766</property>
       <property
-         name="x">294.5</property>
+         name="x">554.5</property>
    </View>
    <WildcardControlFlowRule
       id="WildcardControlFlowRule5">
@@ -37,9 +37,9 @@
       <property
          name="exceptionHandler">false</property>
       <property
-         name="y">86.79883</property>
+         name="y">-163.60352</property>
       <property
-         name="x">349.5</property>
+         name="x">84.5</property>
    </View>
    <ControlFlowCase
       islink="true"
@@ -49,6 +49,156 @@
       <property
          name="fromOutcome">homePage</property>
       <property
-         name="sdm:polyPoints">R50,121.0,61.448242,308.5,86.44824,L50</property>
+         name="sdm:polyPoints">T50,85.0,18.948242,84.5,-109.9541,B50</property>
+   </ControlFlowCase>
+   <View
+      id="View7">
+      <property
+         name="activityId">gralConfigPage</property>
+      <property
+         name="page">/pages/gralConfigPage.jspx</property>
+      <property
+         name="description">&lt;html>&lt;p>&lt;b>gralConfigPage&lt;/b>&lt;/p>&lt;p>Activity Type:  View&lt;/p></property>
+      <property
+         name="exceptionHandler">false</property>
+      <property
+         name="y">-133.9541</property>
+      <property
+         name="x">281.36133</property>
+   </View>
+   <ControlFlowCase
+      islink="true"
+      id="ControlFlowCase8"
+      from="WildcardControlFlowRule5"
+      to="View7">
+      <property
+         name="fromOutcome">gralConfigPage</property>
+      <property
+         name="sdm:polyPoints">R39,121.0,54.448242,281.36133,-80.30469,B50</property>
+   </ControlFlowCase>
+   <View
+      id="View9">
+      <property
+         name="activityId">bitacoraPage</property>
+      <property
+         name="page">/pages/bitacoraPage.jspx</property>
+      <property
+         name="description">&lt;html>&lt;p>&lt;b>bitacoraPage&lt;/b>&lt;/p>&lt;p>Activity Type:  View&lt;/p></property>
+      <property
+         name="exceptionHandler">false</property>
+      <property
+         name="y">13.74707</property>
+      <property
+         name="x">402.3584</property>
+   </View>
+   <ControlFlowCase
+      islink="true"
+      id="ControlFlowCase10"
+      from="WildcardControlFlowRule5"
+      to="View9">
+      <property
+         name="fromOutcome">bitacoraPage</property>
+      <property
+         name="sdm:polyPoints">R50,122.62173,61.448242,361.3584,13.396484,L50</property>
+   </ControlFlowCase>
+   <View
+      id="View11">
+      <property
+         name="activityId">monitorPage</property>
+      <property
+         name="page">/pages/monitorPage.jspx</property>
+      <property
+         name="description">&lt;html>&lt;p>&lt;b>monitorPage&lt;/b>&lt;/p>&lt;p>Activity Type:  View&lt;/p></property>
+      <property
+         name="exceptionHandler">false</property>
+      <property
+         name="y">225.39648</property>
+      <property
+         name="x">351.01953</property>
+   </View>
+   <ControlFlowCase
+      islink="true"
+      id="ControlFlowCase12"
+      from="WildcardControlFlowRule5"
+      to="View11">
+      <property
+         name="fromOutcome">monitorPage</property>
+      <property
+         name="sdm:polyPoints">R61,121.0,68.44824,310.01953,225.0459,L50</property>
+   </ControlFlowCase>
+   <View
+      id="View13">
+      <property
+         name="activityId">notificationsPage</property>
+      <property
+         name="page">/pages/notificationsPage.jspx</property>
+      <property
+         name="description">&lt;html>&lt;p>&lt;b>notificationsPage&lt;/b>&lt;/p>&lt;p>Activity Type:  View&lt;/p></property>
+      <property
+         name="exceptionHandler">false</property>
+      <property
+         name="y">287.39648</property>
+      <property
+         name="x">85.697266</property>
+   </View>
+   <ControlFlowCase
+      islink="true"
+      id="ControlFlowCase14"
+      from="WildcardControlFlowRule5"
+      to="View13">
+      <property
+         name="fromOutcome">notificationsPage</property>
+      <property
+         name="sdm:polyPoints">B57,88.5,106.13267,85.697266,233.0459,T50</property>
+   </ControlFlowCase>
+   <View
+      id="View15">
+      <property
+         name="activityId">mappingPage</property>
+      <property
+         name="page">/pages/mappingPage.jspx</property>
+      <property
+         name="description">&lt;html>&lt;p>&lt;b>mappingPage&lt;/b>&lt;/p>&lt;p>Activity Type:  View&lt;/p></property>
+      <property
+         name="exceptionHandler">false</property>
+      <property
+         name="y">207.79883</property>
+      <property
+         name="x">-162.97168</property>
+   </View>
+   <ControlFlowCase
+      islink="true"
+      id="ControlFlowCase16"
+      from="WildcardControlFlowRule5"
+      to="View15">
+      <property
+         name="fromOutcome">mappingPage</property>
+      <property
+         name="sdm:polyPoints">B43,81.5,103.94824,-121.97168,207.44824,R50</property>
+   </ControlFlowCase>
+   <View
+      id="View17">
+      <property
+         name="activityId">processPage</property>
+      <property
+         name="page">/pages/processPage.jspx</property>
+      <property
+         name="description">&lt;html>&lt;p>&lt;b>processPage&lt;/b>&lt;/p>&lt;p>Activity Type:  View&lt;/p></property>
+      <property
+         name="exceptionHandler">false</property>
+      <property
+         name="y">-35.20117</property>
+      <property
+         name="x">-174.97852</property>
+   </View>
+   <ControlFlowCase
+      islink="true"
+      id="ControlFlowCase18"
+      from="WildcardControlFlowRule5"
+      to="View17">
+      <property
+         name="fromOutcome">processPage</property>
+      <property
+         name="sdm:polyPoints">R55,R64</property>
    </ControlFlowCase>
 </SDM>

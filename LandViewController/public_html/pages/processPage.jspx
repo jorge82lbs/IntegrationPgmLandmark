@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:af="http://xmlns.oracle.com/adf/faces/rich">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <f:view>
+        <af:document title="Configuración y Ejecución" id="d1" smallIconSource="/images/monitor-arrow-icon.png">
+            <af:form id="f1">
+            <af:resource type="javascript">                            
+                    function enforcePreventUserInput(evt) {                    
+                        var popup = AdfPage.PAGE.findComponentByAbsoluteId('p1oadLogin');
+                        if (popup != null) {
+                            AdfPage.PAGE.addBusyStateListener(popup, handleBusyState);
+                            evt.preventUserInput();
+                        }
+                    }
+                
+                    function handleBusyState(evt) {
+                        var popup = AdfPage.PAGE.findComponentByAbsoluteId('p1oadLogin');
+                        if (popup != null) {
+                            if (evt.isBusy()) {
+                                popup.show();
+                            }
+                            else {
+                                popup.hide();
+                                AdfPage.PAGE.removeBusyStateListener(popup, handleBusyState);
+                            }
+                        }
+                    }        
+                </af:resource>
+                <af:pageTemplate viewId="/templates/pgmLandTemplate.jspx" id="pt1">
+                    <f:facet name="content"/>
+                </af:pageTemplate>
+                <!-- ################################### POPUP LOADING .... ##################################### !-->
+                <af:popup id="popLoading" contentDelivery="immediate">
+                  <af:dialog id="dlgLoading" type="none" title="Procesando Información" closeIconVisible="false">
+                    <af:panelGroupLayout id="PnlLoading" layout="vertical" halign="center">
+                      <af:image source="/images/upload_file.gif" id="ImgIdxLoad" shortDesc="Espere..."/>
+                      <af:outputText value="... por favor espere." id="LblIdxLoad1Login"/>
+                    </af:panelGroupLayout>
+                  </af:dialog>
+                </af:popup>
+            </af:form>
+        </af:document>
+    </f:view>
+</jsp:root>

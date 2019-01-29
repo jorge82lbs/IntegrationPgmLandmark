@@ -140,7 +140,7 @@ public class UtilFaces {
             loVO.executeQuery();
             AdfFacesContext.getCurrentInstance().addPartialTarget(toRichTable);
         }catch(Exception loIntExp){
-         System.out.println("Error al actualiza front tsIteraror "+tsIteraror);   
+            System.out.println("Error al actualiza front tsIteraror "+tsIteraror);   
         }
     }
 
