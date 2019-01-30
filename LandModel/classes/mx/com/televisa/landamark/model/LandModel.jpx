@@ -12,7 +12,7 @@
     <Attr Name="_jprName" Value="../../../../../../LandModel.jpr"/>
     <Attr Name="_jbo.SQLBuilder" Value="SQL92"/>
     <Attr Name="_jbo.TypeMapEntries" Value="Java"/>
-    <Attr Name="_NamedConnection" Value="Connection1"/>
+    <Attr Name="_NamedConnection" Value="pgm2"/>
     <Attr Name="_appModuleNames0" Value="mx.com.televisa.landamark.model.AppModule"/>
   </DesignTime>
   <Containee

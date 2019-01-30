@@ -78,14 +78,16 @@ public class LoginBean {
         String  lsTokenSecman;
         if (lsUserName != null && lsPassword != null) {                        
             try {                
-                lsTokenSecman = 
+                /*lsTokenSecman = 
                     validateSecmanUser(lsUserName, lsPassword); 
-                    //lsTokenSecman = "123456789"; //TEMPORAL
+                */
+                    lsTokenSecman = "123456789"; //TEMPORAL
                 if (lsTokenSecman != null) {
                     System.out.println("obteniendo permisos");
-                    Usuario loUserIntegration = 
-                        getSecmanUserPermission(lsUserName);
-                    if(loUserIntegration != null){
+                    /*Usuario loUserIntegration = 
+                        getSecmanUserPermission(lsUserName);*/
+                    //if(loUserIntegration != null){
+                    if(true){
                         System.out.println("obteniendo permisos...oko");
                         //Settear Datos--------------------------
                         FacesContext        loContext = FacesContext.getCurrentInstance();
@@ -98,11 +100,11 @@ public class LoginBean {
                         DateFormat          ldDateFormat = 
                             new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                         Date                ldDate = new Date();                    
-                        loUserInfo.setPsUserFullName(loUserIntegration.getNomMostrar().getNomMostrar());
-                        loUserInfo.setPsEmail(loUserIntegration.getMailUsuario().getMailUsuario());
+                        loUserInfo.setPsUserFullName("Bautista Santiago Jorge Luis");//loUserIntegration.getNomMostrar().getNomMostrar());
+                        loUserInfo.setPsEmail("jlbautistas@teleevisa.com.mx");//loUserIntegration.getMailUsuario().getMailUsuario());
+                        loUserInfo.setPsIdUser("666");//loUserIntegration.getIdUsuario().getIdUsuario());
+                        loUserInfo.setPsUserName("jlbautistas");//loUserIntegration.getUserName().getUserName());
                         loUserInfo.setPsDateTimeLogin(ldDateFormat.format(ldDate));
-                        loUserInfo.setPsIdUser(loUserIntegration.getIdUsuario().getIdUsuario());
-                        loUserInfo.setPsUserName(loUserIntegration.getUserName().getUserName());
                         loUserInfo.setPsToken(lsTokenSecman);
                         loSession.setAttribute("loggedPgmIntegrationUser", loUserInfo.getPsUserName());                             
                         loSession.setAttribute("loggedPgmIntegrationIdUser", loUserInfo.getPsIdUser()); 
@@ -160,6 +162,7 @@ public class LoginBean {
         UserMenuBean        loMenu = 
             (UserMenuBean) new UtilFaces().resolveExpression("#{UserMenuBean}");
         String              lsFlag = "false";
+        lsFlag = "true"; //TEMPORAL
         loMenu.setLsRolBitacora(lsFlag);
         loMenu.setLsRolGeneralParams(lsFlag);
         loMenu.setLsRolMonitor(lsFlag);
@@ -173,7 +176,7 @@ public class LoginBean {
         loMenu.setLsOprInitStopCron(lsFlag);
         loMenu.setLsOprInsertCron(lsFlag);
         loMenu.setLsRolUsrVtaTradicional(lsFlag);
-        
+        /*
         List<String>        laOperaciones = 
             getSecmanUserOperations(tsUserName);
         for (int liI = 0; liI < laOperaciones.size(); liI++) {
@@ -218,6 +221,7 @@ public class LoginBean {
                 loMenu.setLsRolUsrVtaTradicional(lsFlag);                                
             
         }
+        */
         return loMenu;
     }
     
@@ -254,7 +258,7 @@ public class LoginBean {
     public String validateSecmanUser(String tsUserName, 
                                      String tsPassword
                                     ) throws Exception {
-        String            lsResponse = null;        
+        String            lsResponse = null;   
         SecurityManagerWs loSecMan = new SecurityManagerWs();
         try {
             System.out.println("Validando temporalmente en Integracion");

@@ -39,10 +39,7 @@
     ViewObjectName="mx.com.televisa.landamark.model.LmkIntServicesCatTabView"/>
   <ViewUsage
     Name="LmkIntServicesLogTabView1"
-    ViewObjectName="mx.com.televisa.landamark.model.LmkIntServicesLogTabView"/>
-  <ViewUsage
-    Name="LmkIntServicesParamsTabView1"
-    ViewObjectName="mx.com.televisa.landamark.model.LmkIntServicesParamsTabView"/>
+    ViewObjectName="mx.com.televisa.landamark.model.LmkIntServicesLogTabView"/>  
   <ViewUsage
     Name="LmkIntXmlFilesTabView1"
     ViewObjectName="mx.com.televisa.landamark.model.LmkIntXmlFilesTabView"/>
@@ -52,4 +49,10 @@
   <ViewUsage
     Name="LmkIntMappingCatVwView1"
     ViewObjectName="mx.com.televisa.landamark.model.LmkIntMappingCatVwView"/>
+  <ViewUsage
+    Name="LmkIntNotificationsVwView1"
+    ViewObjectName="mx.com.televisa.landamark.model.LmkIntNotificationsVwView"/>
+  <ViewUsage
+    Name="LmkIntServicesParamsTabView1"
+    ViewObjectName="mx.com.televisa.landamark.model.LmkIntServicesParamsTabView"/>
 </AppModule>

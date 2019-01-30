@@ -12,10 +12,22 @@
   BindingStyle="JDBC"
   CustomQuery="false"
   SelectAllAttributes="false"
-  PageIterMode="Full">
+  PageIterMode="Full"
+  RowClass="mx.com.televisa.landamark.model.LmkIntServicesParamsTabViewRowImpl"
+  ComponentClass="mx.com.televisa.landamark.model.LmkIntServicesParamsTabViewImpl">
+  <DesignTime>
+    <Attr Name="_codeGenFlag2" Value="Access|Coll|VarAccess"/>
+    <Attr Name="_isCodegen" Value="true"/>
+  </DesignTime>
   <EntityUsage
     Name="LmkIntServicesParamsTab"
     Entity="mx.com.televisa.landamark.model.LmkIntServicesParamsTab"/>
+  <ViewAttribute
+    Name="IdParameterServ"
+    PrecisionRule="true"
+    EntityAttrName="IdParameterServ"
+    EntityUsage="LmkIntServicesParamsTab"
+    AliasName="ID_PARAMETER_SERV"/>
   <ViewAttribute
     Name="IdService"
     PrecisionRule="true"
@@ -24,14 +36,12 @@
     AliasName="ID_SERVICE"/>
   <ViewAttribute
     Name="IndParameter"
-    IsNotNull="true"
     PrecisionRule="true"
     EntityAttrName="IndParameter"
     EntityUsage="LmkIntServicesParamsTab"
     AliasName="IND_PARAMETER"/>
   <ViewAttribute
     Name="IndValParameter"
-    IsNotNull="true"
     PrecisionRule="true"
     EntityAttrName="IndValParameter"
     EntityUsage="LmkIntServicesParamsTab"

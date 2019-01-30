@@ -233,7 +233,7 @@
                                                 </af:outputText>
                                             </af:column>
                                             <af:column sortProperty="#{bindings.LmkIntMappingCatVwView1.hints.NomRelation.name}"
-                                                       sortable="true" align="center"
+                                                       sortable="true" align="center" frozen="true"
                                                        headerText="Nombre"
                                                        id="c2">
                                                 <af:outputText value="#{row.NomRelation}"
@@ -241,7 +241,7 @@
                                                                id="ot2"/>
                                             </af:column>
                                             <af:column sortProperty="#{bindings.LmkIntMappingCatVwView1.hints.ValValueRelation.name}"
-                                                       sortable="true" visible="false"
+                                                       sortable="true" visible="false" frozen="true"
                                                        headerText="#{bindings.LmkIntMappingCatVwView1.hints.ValValueRelation.label}"
                                                        id="c5">
                                                 <af:outputText value="#{row.ValValueRelation}"
@@ -250,7 +250,7 @@
                                             </af:column>
                                             
                                             <af:column sortProperty="#{bindings.LmkIntMappingCatVwView1.hints.NomOrigin.name}"
-                                                       sortable="true" align="center"
+                                                       sortable="true" align="center" frozen="true"
                                                        headerText="Nombre Origen"
                                                        id="c3">
                                                 <af:outputText value="#{row.NomOrigin}"
@@ -258,7 +258,7 @@
                                                                id="ot3"/>
                                             </af:column>
                                             <af:column sortProperty="#{bindings.LmkIntMappingCatVwView1.hints.ValValueOrigin.name}"
-                                                       sortable="true" align="center"
+                                                       sortable="true" align="center" frozen="true"
                                                        headerText="Valor Origen"
                                                        id="c6">
                                                 <af:outputText value="#{row.ValValueOrigin}"
@@ -337,8 +337,8 @@
                                                 </af:outputText>
                                             </af:column>
                                             <af:column sortProperty="#{bindings.LmkIntMappingCatVwView1.hints.IndEstatus.name}"
-                                                       sortable="true"
-                                                       headerText="#{bindings.LmkIntMappingCatVwView1.hints.IndEstatus.label}"
+                                                       sortable="true" align="center"
+                                                       headerText="Estatus"
                                                        id="c14">
                                                 <af:selectBooleanCheckbox text="" label=" "
                                                                   id="sbcEst"
@@ -467,7 +467,7 @@
                                                                id="ot29"/>
                                             </af:column>
                                             <af:column sortProperty="#{bindings.LmkIntMappingCatVwView1.hints.Attribute15.name}"
-                                                       sortable="true" 
+                                                       sortable="true"  align="center"
                                                        headerText="Usuario"
                                                        id="c30">
                                                 <af:outputText value="#{row.Attribute15}"
@@ -475,8 +475,8 @@
                                                                id="ot30"/>
                                             </af:column>
                                             <af:column sortProperty="#{bindings.LmkIntMappingCatVwView1.hints.FecCreationDate.name}"
-                                                       sortable="true" 
-                                                       headerText="#{bindings.LmkIntMappingCatVwView1.hints.FecCreationDate.label}"
+                                                       sortable="true" align="center"
+                                                       headerText="Fecha Creación"
                                                        id="c31">
                                                 <af:outputText value="#{row.FecCreationDate}"
                                                                shortDesc="#{bindings.LmkIntMappingCatVwView1.hints.FecCreationDate.tooltip}"

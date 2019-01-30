@@ -11,37 +11,40 @@
   AliasName="LmkIntServicesParamsTab"
   BindingStyle="JDBC">
   <Attribute
-    Name="IdService"
-    ColumnName="ID_SERVICE"
+    Name="IdParameterServ"
+    ColumnName="ID_PARAMETER_SERV"
     SQLType="INTEGER"
     Type="java.lang.Integer"
     ColumnType="INTEGER"
     TableName="EVENTAS.LMK_INT_SERVICES_PARAMS_TAB"
     PrimaryKey="true"/>
   <Attribute
+    Name="IdService"
+    ColumnName="ID_SERVICE"
+    SQLType="INTEGER"
+    Type="java.lang.Integer"
+    ColumnType="INTEGER"
+    TableName="EVENTAS.LMK_INT_SERVICES_PARAMS_TAB"/>
+  <Attribute
     Name="IndParameter"
-    IsNotNull="true"
     Precision="50"
     ColumnName="IND_PARAMETER"
     SQLType="VARCHAR"
     Type="java.lang.String"
     ColumnType="VARCHAR"
-    TableName="EVENTAS.LMK_INT_SERVICES_PARAMS_TAB"
-    PrimaryKey="true">
+    TableName="EVENTAS.LMK_INT_SERVICES_PARAMS_TAB">
     <DesignTime>
       <Attr Name="_DisplaySize" Value="50"/>
     </DesignTime>
   </Attribute>
   <Attribute
     Name="IndValParameter"
-    IsNotNull="true"
     Precision="150"
     ColumnName="IND_VAL_PARAMETER"
     SQLType="VARCHAR"
     Type="java.lang.String"
     ColumnType="VARCHAR"
-    TableName="EVENTAS.LMK_INT_SERVICES_PARAMS_TAB"
-    PrimaryKey="true">
+    TableName="EVENTAS.LMK_INT_SERVICES_PARAMS_TAB">
     <DesignTime>
       <Attr Name="_DisplaySize" Value="150"/>
     </DesignTime>
@@ -290,15 +293,13 @@
     ColumnType="INTEGER"
     TableName="EVENTAS.LMK_INT_SERVICES_PARAMS_TAB"/>
   <Key
-    Name="QEventasLmkI00004IdService00001"
+    Name="QEventasLmkI00004IdPa0000100001"
     PrimaryKey="true">
     <DesignTime>
-      <Attr Name="_DBObjectName" Value="Q_EVENTAS_LMK_I00004_ID_SERVICE_00001"/>
+      <Attr Name="_DBObjectName" Value="Q_EVENTAS_LMK_I00004_ID_PA00001_00001"/>
     </DesignTime>
     <AttrArray Name="Attributes">
-      <Item Value="mx.com.televisa.landamark.model.LmkIntServicesParamsTab.IdService"/>
-      <Item Value="mx.com.televisa.landamark.model.LmkIntServicesParamsTab.IndParameter"/>
-      <Item Value="mx.com.televisa.landamark.model.LmkIntServicesParamsTab.IndValParameter"/>
+      <Item Value="mx.com.televisa.landamark.model.LmkIntServicesParamsTab.IdParameterServ"/>
     </AttrArray>
   </Key>
 </Entity>

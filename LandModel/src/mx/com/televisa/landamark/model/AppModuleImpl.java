@@ -7,7 +7,13 @@ import java.util.Map;
 
 import mx.com.televisa.landamark.model.types.LmkIntConfigParamRowBean;
 
+import mx.com.televisa.landamark.model.types.LmkIntCronConfigRowBean;
 import mx.com.televisa.landamark.model.types.LmkIntMappingCatRowBean;
+import mx.com.televisa.landamark.model.types.LmkIntNotificationsRowBean;
+import mx.com.televisa.landamark.model.types.LmkIntRequestsRowBean;
+import mx.com.televisa.landamark.model.types.LmkIntServicesCatRowBean;
+import mx.com.televisa.landamark.model.types.LmkIntServicesLogRowBean;
+import mx.com.televisa.landamark.model.types.LmkIntServicesParamsRowBean;
 import mx.com.televisa.landamark.model.types.LmkIntXmlFilesRowBean;
 
 import oracle.adf.share.ADFContext;
@@ -191,6 +197,596 @@ public class AppModuleImpl extends ApplicationModuleImpl {
        return loRowResponse;
     }
     
+    /******************************* Configuracion de Parametros de Servicios *************************************/
+    
+    /**
+     * Insert en tabla de Configuracion de Parametros Servicios
+     * @autor Jorge Luis Bautista Santiago  
+     * @param piIdService, 
+     * @param psParameter,
+     * @param psValParameter,
+     * @param psStatusTab
+     * @return void
+     */
+    
+    public void insertServicesParamsModel(LmkIntServicesParamsRowBean toLmkBean) {        
+        LmkIntServicesParamsTabViewImpl    loObj = 
+            getLmkIntServicesParamsTabView1();
+        
+        LmkIntServicesParamsTabViewRowImpl loRow = 
+            (LmkIntServicesParamsTabViewRowImpl)loObj.createRow();        
+        try {
+            loRow.setIdParameterServ(toLmkBean.getLiIdParameterServ());            
+            loRow.setIdService(toLmkBean.getLiIdService());            
+            loRow.setIndParameter(toLmkBean.getLsIndParameter());         
+            loRow.setIndValParameter(toLmkBean.getLsIndValParameter());         
+            loRow.setIndEstatus(toLmkBean.getLsIndEstatus());         
+            loRow.setFecCreationDate(getCurrentTimestamp());
+            loRow.setFecLastUpdateDate(getCurrentTimestamp());
+            loRow.setAttribute15(getValueSessionFromAttribute("loggedIntegrationUser"));
+            loRow.setNumCreatedBy(Integer.parseInt(getValueSessionFromAttribute("loggedIntegrationIdUser")));
+            loRow.setNumLastUpdateLogin(Integer.parseInt(getValueSessionFromAttribute("loggedIntegrationIdUser")));
+            loRow.setNumLastUpdatedBy(Integer.parseInt(getValueSessionFromAttribute("loggedIntegrationIdUser")));
+            loObj.insertRow(loRow);          
+        } catch (Exception loEx) {
+            System.out.println("Insert ERROR!!"+loEx.getMessage());
+        }finally{                        
+            getDBTransaction().commit();    
+        }           
+    }
+    
+    /**
+     * Delete en tabla de Configuracion de Parametros Servicios
+     * @autor Jorge Luis Bautista Santiago  
+     * @param piIdService     
+     * @param psParameter
+     * @param psValParameter
+     * @return void
+     */
+    
+    public void deleteServicesParamsModel(LmkIntServicesParamsRowBean toLmkBean) {             
+        try {
+            LmkIntServicesParamsTabViewImpl    loObj = 
+                getLmkIntServicesParamsTabView1();
+            String lsWhere = "ID_PARAMETER_SERV = " + toLmkBean.getLiIdParameterServ();
+            loObj.setWhereClause(lsWhere);
+            loObj.setRangeSize(-1);
+            loObj.executeQuery();            
+            Row[] laRows = loObj.getAllRowsInRange();            
+            if (laRows.length > 0) {
+                for(int liI = 0; liI < laRows.length; liI++){
+                    Row loRow = laRows[liI];
+                    LmkIntServicesParamsTabViewRowImpl loRowDelete = 
+                        (LmkIntServicesParamsTabViewRowImpl)loRow;           
+                    try{       
+                        loRowDelete.remove();
+                    }catch(Exception loExInt){
+                        System.out.println("Delete interno ERROR!!"+loExInt.getMessage());
+                    }                    
+                }
+            } 
+        } catch (Exception loEx) {
+            System.out.println("Delete ERROR!!"+loEx.getMessage());
+        }finally{                        
+            getDBTransaction().commit();    
+        }  
+    }
+    
+    /**
+     * Update en tabla de Parametros de Servicios
+     * @autor Jorge Luis Bautista Santiago  
+     * @param tiIdService, 
+     * @param psNomService,
+     * @param psIndServiceWsdl,
+     * @param psIndSystem,
+     * @param psIndOrigin,
+     * @param psIndDestiny,
+     * @param tsStatusTab,
+     * @param psAsynTab
+     * @return void
+     */
+
+    public void updateServicesParamsModel(LmkIntServicesParamsRowBean toLmkBean) {        
+     
+       try {
+            LmkIntServicesParamsTabViewImpl    loObj = 
+                getLmkIntServicesParamsTabView1();
+            String lsWhere = "ID_PARAMETER_SERV = " + toLmkBean.getLiIdParameterServ();
+            loObj.setWhereClause(lsWhere);
+            loObj.setRangeSize(-1);
+            loObj.executeQuery();         
+            Row[] laRows = loObj.getAllRowsInRange();     
+           if (laRows.length > 0) {
+                Row loRowUpd = loObj.getAllRowsInRange()[0];
+               LmkIntServicesParamsTabViewRowImpl loUpdRow = 
+                   (LmkIntServicesParamsTabViewRowImpl)loRowUpd;     
+               
+               //loUpdRow.setIdService(tiIdService);            
+               loUpdRow.setIndParameter(toLmkBean.getLsIndParameter());         
+               loUpdRow.setIndValParameter(toLmkBean.getLsIndValParameter());                             
+               loUpdRow.setIndEstatus(toLmkBean.getLsIndEstatus());
+               loUpdRow.setFecLastUpdateDate(getCurrentTimestamp());
+               loUpdRow.setAttribute14(getValueSessionFromAttribute("loggedIntegrationUser"));
+               loUpdRow.setNumLastUpdateLogin(Integer.parseInt(getValueSessionFromAttribute("loggedIntegrationIdUser")));
+               loUpdRow.setNumLastUpdatedBy(Integer.parseInt(getValueSessionFromAttribute("loggedIntegrationIdUser"))); 
+           }           
+        } catch (Exception loEx) {
+            System.out.println("Update ERROR!!"+loEx.getMessage());
+        }finally{                        
+            getDBTransaction().commit();    
+        }   
+    }
+    
+    /******************************* Log de Servicios *************************************/
+    /**
+     * Insert en tabla de LOG de Servicios
+     * @autor Jorge Luis Bautista Santiago  
+     * @param toLmkBean
+     * @return void
+     */
+    public void insertServicesLogModel(LmkIntServicesLogRowBean toLmkBean) {   
+       
+        
+        LmkIntServicesLogTabViewImpl    loObj = 
+            getLmkIntServicesLogTabView1();
+        LmkIntServicesLogTabViewRowImpl loRow = 
+            (LmkIntServicesLogTabViewRowImpl)loObj.createRow();        
+        try {
+            loRow.setIdLogServices(toLmkBean.getLiIdLogServices());
+            loRow.setIdService(toLmkBean.getLiIdService());
+            loRow.setIndProcess(toLmkBean.getLiIndProcess());
+            loRow.setIndResponse(toLmkBean.getLsIndResponse());
+            loRow.setNumUser(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+            loRow.setNumProcessId(toLmkBean.getLiNumProcessId());
+            loRow.setNumPgmProcessId(toLmkBean.getLiNumPgmProcessId());            
+            loRow.setFecRequest(new Timestamp(System.currentTimeMillis()));            
+            loRow.setIndEstatus("1");            
+            loRow.setFecCreationDate(new Timestamp(System.currentTimeMillis()));
+            loRow.setFecLastUpdateDate(new Timestamp(System.currentTimeMillis()));
+            loRow.setAttribute15(getValueSessionFromAttribute("loggedPgmIntegrationUser"));
+            loRow.setNumCreatedBy(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+            loRow.setNumLastUpdateLogin(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+            loRow.setNumLastUpdatedBy(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+            loObj.insertRow(loRow);          
+        } catch (Exception loEx) {
+            System.out.println("Insert ERROR insertServicesLogModel !!"+loEx.getMessage());
+        }finally{                        
+            getDBTransaction().commit();    
+        }           
+    }
+    
+    /**
+     * Update en tabla de Log de Servicios (procesos)
+     * @autor Jorge Luis Bautista Santiago  
+     * @param toLmkBean
+     * @return void
+     */
+    public void updateServicesLogModel(LmkIntServicesLogRowBean toLmkBean) {   
+        try {
+            
+            LmkIntServicesLogTabViewImpl    loObj = 
+                getLmkIntServicesLogTabView1();
+            loObj.setWhereClause("ID_LOG_SERVICES = " + toLmkBean.getLiIdLogServices());
+            loObj.setRangeSize(-1);
+            loObj.executeQuery();            
+            Row[] laRows = loObj.getAllRowsInRange();     
+            if (laRows.length > 0) {
+               Row loRowAr = loObj.getAllRowsInRange()[0];
+               LmkIntServicesLogTabViewRowImpl loRow = 
+                   (LmkIntServicesLogTabViewRowImpl)loRowAr;
+                
+                loRow.setIdLogServices(toLmkBean.getLiIdLogServices());
+                loRow.setIdService(toLmkBean.getLiIdService());
+                loRow.setIndProcess(toLmkBean.getLiIndProcess());
+                loRow.setIndResponse(toLmkBean.getLsIndResponse());
+                loRow.setNumUser(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+                loRow.setNumProcessId(toLmkBean.getLiNumProcessId());
+                loRow.setNumPgmProcessId(toLmkBean.getLiNumPgmProcessId());            
+                loRow.setFecRequest(new Timestamp(System.currentTimeMillis()));            
+                loRow.setIndEstatus(toLmkBean.getLsIndEstatus());        
+                loRow.setFecLastUpdateDate(getCurrentTimestamp());
+                loRow.setAttribute14(getValueSessionFromAttribute("loggedPgmIntegrationUser"));                
+                loRow.setNumLastUpdateLogin(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+                loRow.setNumLastUpdatedBy(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+            }//loObj.insertRow(loRow);          
+        } catch (Exception loEx) {
+            System.out.println("update ERROR!!"+loEx.getMessage());
+        }finally{                        
+            getDBTransaction().commit();    
+        }           
+    }
+    
+    /******************************* Servicios(Procesos) *************************************/
+    /**
+     * Insert en tabla de Servicios (procesos)
+     * @autor Jorge Luis Bautista Santiago  
+     * @param toLmkBean
+     * @return void
+     */
+    public void insertServicesCatModel(LmkIntServicesCatRowBean toLmkBean) {        
+        LmkIntServicesCatTabViewImpl    loObj = 
+            getLmkIntServicesCatTabView1();
+        
+        LmkIntServicesCatTabViewRowImpl loRow = 
+            (LmkIntServicesCatTabViewRowImpl)loObj.createRow();        
+        try {
+            loRow.setIdService(toLmkBean.getLiIdService());
+            loRow.setNomService(toLmkBean.getLsNomService());
+            loRow.setIndDescService(toLmkBean.getLsIndDescService());
+            loRow.setIndServiceWsdl(toLmkBean.getLsIndServiceWsdl());
+            loRow.setIndOrigin(toLmkBean.getLsIndOrigin());
+            loRow.setIndDestiny(toLmkBean.getLsIndDestiny());
+            loRow.setIndSystem(toLmkBean.getLsIndSystem());
+            loRow.setIndSynchronous(toLmkBean.getLsIndSynchronous());
+            loRow.setIndEstatus(toLmkBean.getLsIndEstatus());
+            loRow.setFecCreationDate(getCurrentTimestamp());
+            loRow.setFecLastUpdateDate(getCurrentTimestamp());
+            loRow.setAttribute15(getValueSessionFromAttribute("loggedPgmIntegrationUser"));
+            loRow.setNumCreatedBy(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+            loRow.setNumLastUpdateLogin(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+            loRow.setNumLastUpdatedBy(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+            loObj.insertRow(loRow);          
+        } catch (Exception loEx) {
+            System.out.println("Insert ERROR!!"+loEx.getMessage());
+        }finally{                        
+            getDBTransaction().commit();    
+        }           
+    }
+    
+    /**
+     * Update en tabla de Servicios (procesos)
+     * @autor Jorge Luis Bautista Santiago  
+     * @param toLmkBean
+     * @return void
+     */
+    public void updateServicesCatModel(LmkIntServicesCatRowBean toLmkBean) { 
+        try {
+            
+            LmkIntServicesCatTabViewImpl    loObj = 
+                getLmkIntServicesCatTabView1();
+            loObj.setWhereClause("ID_SERVICE = " + toLmkBean.getLiIdService());
+            loObj.setRangeSize(-1);
+            loObj.executeQuery();            
+            Row[] laRows = loObj.getAllRowsInRange();     
+            if (laRows.length > 0) {
+               Row loRowAr = loObj.getAllRowsInRange()[0];
+               LmkIntServicesCatTabViewRowImpl loRow = 
+                   (LmkIntServicesCatTabViewRowImpl)loRowAr;
+                
+                //loRow.setIdService(toLmkBean.getLiIdService());
+                loRow.setNomService(toLmkBean.getLsNomService());
+                loRow.setIndDescService(toLmkBean.getLsIndDescService());
+                loRow.setIndServiceWsdl(toLmkBean.getLsIndServiceWsdl());
+                loRow.setIndOrigin(toLmkBean.getLsIndOrigin());
+                loRow.setIndDestiny(toLmkBean.getLsIndDestiny());
+                loRow.setIndSystem(toLmkBean.getLsIndSystem());
+                loRow.setIndSynchronous(toLmkBean.getLsIndSynchronous());
+                loRow.setIndEstatus(toLmkBean.getLsIndEstatus());        
+                loRow.setFecLastUpdateDate(getCurrentTimestamp());
+                loRow.setAttribute14(getValueSessionFromAttribute("loggedPgmIntegrationUser"));                
+                loRow.setNumLastUpdateLogin(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+                loRow.setNumLastUpdatedBy(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+            }//loObj.insertRow(loRow);          
+        } catch (Exception loEx) {
+            System.out.println("update ERROR!!"+loEx.getMessage());
+        }finally{                        
+            getDBTransaction().commit();    
+        }           
+    }
+    
+    /**
+     * Delete en tabla de Configuracion de Cron
+     * @autor Jorge Luis Bautista Santiago  
+     * @param piIdService     
+     * @return void
+     */
+    public void deleteServicesCatModel(Integer piIdService) {      
+        try {
+            LmkIntServicesCatTabViewImpl    loObj = 
+                getLmkIntServicesCatTabView1();
+            loObj.setWhereClause("ID_SERVICE = " + piIdService);
+            loObj.setRangeSize(-1);
+            loObj.executeQuery();            
+            Row[] laRows = loObj.getAllRowsInRange();            
+            if (laRows.length > 0) {
+                for(int liI = 0; liI < laRows.length; liI++){
+                    Row loRow = laRows[liI];
+                    LmkIntServicesCatTabViewRowImpl loRowDelete = 
+                        (LmkIntServicesCatTabViewRowImpl)loRow;           
+                    try{       
+                        loRowDelete.remove();
+                    }catch(Exception loExInt){
+                        System.out.println("Delete interno ERROR!!"+loExInt.getMessage());
+                    }                    
+                }
+            } 
+        } catch (Exception loEx) {
+            System.out.println("Delete ERROR!!"+loEx.getMessage());
+        }finally{                        
+            getDBTransaction().commit();    
+        }  
+    }
+    
+    /******************************* Request *************************************/
+    /**
+     * Insert en tabla de Solicitudes
+     * @autor Jorge Luis Bautista Santiago  
+     * @param toLmkBean
+     * @return void
+     */
+    public void insertRequestModel(LmkIntRequestsRowBean toLmkBean) {        
+        LmkIntRequestsTabViewImpl    loObj = 
+            getLmkIntRequestsTabView1();
+        
+        LmkIntRequestsTabViewRowImpl loRow = 
+            (LmkIntRequestsTabViewRowImpl)loObj.createRow();        
+        try {
+            loRow.setIdRequest(toLmkBean.getLiIdRequest());
+            loRow.setIdService(toLmkBean.getLiIdService());
+            loRow.setIndServiceType(toLmkBean.getLsIndServiceType());
+            loRow.setNomUserName(toLmkBean.getLsNomUserName());
+            loRow.setIndEstatus(toLmkBean.getLsIndEstatus());           
+            loRow.setFecCreationDate(getCurrentTimestamp());
+            loRow.setFecLastUpdateDate(getCurrentTimestamp());
+            loRow.setAttribute15(getValueSessionFromAttribute("loggedPgmIntegrationUser"));
+            loRow.setNumCreatedBy(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+            loRow.setNumLastUpdateLogin(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+            loRow.setNumLastUpdatedBy(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+            loObj.insertRow(loRow);          
+        } catch (Exception loEx) {
+            System.out.println("Insert ERROR!!"+loEx.getMessage());
+        }finally{                        
+            getDBTransaction().commit();    
+        }           
+    }
+    
+    
+    /******************************* Cron *************************************/
+    /**
+     * Insert en tabla de Configuracion de Cron
+     * @autor Jorge Luis Bautista Santiago  
+     * @param toLmkBean
+     * @return void
+     */
+    public void insertCronConfigModel(LmkIntCronConfigRowBean toLmkBean) {        
+        LmkIntCronConfigTabViewImpl    loObj = 
+            getLmkIntCronConfigTabView1();
+        
+        LmkIntCronConfigTabViewRowImpl loRow = 
+            (LmkIntCronConfigTabViewRowImpl)loObj.createRow();        
+        try {
+            loRow.setIdConfiguration(toLmkBean.getLiIdConfiguration());
+            loRow.setIdService(toLmkBean.getLiIdService());
+            loRow.setIndPeriodicity(toLmkBean.getLsIndPeriodicity());
+            loRow.setIndBeginSchedule(toLmkBean.getLsIndBeginSchedule());
+            loRow.setIndBeginMinute(toLmkBean.getLsIndBeginMinute());
+            loRow.setIndBeginSecond(toLmkBean.getLsIndBeginSecond());
+            loRow.setIndEndSchedule(toLmkBean.getLsIndEndSchedule());
+            loRow.setIndEndMinute(toLmkBean.getLsIndEndMinute());
+            loRow.setIndEndSecond(toLmkBean.getLsIndEndSecond());            
+            loRow.setIndTypeSchedule(toLmkBean.getLsIndTypeSchedule());
+            loRow.setIndValTypeSchedule(toLmkBean.getLsIndValTypeSchedule());
+            loRow.setIndDayMonth(toLmkBean.getLiIndDayMonth());
+            loRow.setIndWeekMonth(toLmkBean.getLiIndWeekMonth());
+            loRow.setIndCronExpression(toLmkBean.getLsIndCronExpression());
+            loRow.setIndMonday(toLmkBean.getLiIndMonday());
+            loRow.setIndTuesday(toLmkBean.getLiIndTuesday());
+            loRow.setIndWednesday(toLmkBean.getLiIndWednesday());
+            loRow.setIndThursday(toLmkBean.getLiIndThursday());
+            loRow.setIndFriday(toLmkBean.getLiIndFriday());
+            loRow.setIndSaturday(toLmkBean.getLiIndSaturday());
+            loRow.setIndSunday(toLmkBean.getLiIndSunday());
+            loRow.setIndEstatus(toLmkBean.getLsIndEstatus());           
+            loRow.setFecCreationDate(getCurrentTimestamp());
+            loRow.setFecLastUpdateDate(getCurrentTimestamp());
+            loRow.setAttribute15(getValueSessionFromAttribute("loggedPgmIntegrationUser"));
+            loRow.setNumCreatedBy(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+            loRow.setNumLastUpdateLogin(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+            loRow.setNumLastUpdatedBy(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+            loObj.insertRow(loRow);          
+        } catch (Exception loEx) {
+            System.out.println("Insert ERROR!!"+loEx.getMessage());
+        }finally{                        
+            getDBTransaction().commit();    
+        }           
+    }
+    
+    /**
+     * Update en tabla de Configuracion de Cron
+     * @autor Jorge Luis Bautista Santiago  
+     * @param toLmkBean
+     * @return void
+     */
+    public void updateCronConfigModel(LmkIntCronConfigRowBean toLmkBean) { 
+        try {
+            
+            LmkIntCronConfigTabViewImpl    loObj = 
+                getLmkIntCronConfigTabView1();
+            loObj.setWhereClause("ID_CONFIGURATION = " + toLmkBean.getLiIdConfiguration());
+            loObj.setRangeSize(-1);
+            loObj.executeQuery();            
+            Row[] laRows = loObj.getAllRowsInRange();     
+            if (laRows.length > 0) {
+               Row loRowAr = loObj.getAllRowsInRange()[0];
+               LmkIntCronConfigTabViewRowImpl loRow = 
+                   (LmkIntCronConfigTabViewRowImpl)loRowAr;
+                
+                loRow.setIdConfiguration(toLmkBean.getLiIdConfiguration());
+                loRow.setIdService(toLmkBean.getLiIdService());
+                loRow.setIndPeriodicity(toLmkBean.getLsIndPeriodicity());
+                loRow.setIndBeginSchedule(toLmkBean.getLsIndBeginSchedule());
+                loRow.setIndBeginMinute(toLmkBean.getLsIndBeginMinute());
+                loRow.setIndBeginSecond(toLmkBean.getLsIndBeginSecond());
+                loRow.setIndEndSchedule(toLmkBean.getLsIndEndSchedule());
+                loRow.setIndEndMinute(toLmkBean.getLsIndEndMinute());
+                loRow.setIndEndSecond(toLmkBean.getLsIndEndSecond());            
+                loRow.setIndTypeSchedule(toLmkBean.getLsIndTypeSchedule());
+                loRow.setIndValTypeSchedule(toLmkBean.getLsIndValTypeSchedule());
+                loRow.setIndDayMonth(toLmkBean.getLiIndDayMonth());
+                loRow.setIndWeekMonth(toLmkBean.getLiIndWeekMonth());
+                loRow.setIndCronExpression(toLmkBean.getLsIndCronExpression());
+                loRow.setIndMonday(toLmkBean.getLiIndMonday());
+                loRow.setIndTuesday(toLmkBean.getLiIndTuesday());
+                loRow.setIndWednesday(toLmkBean.getLiIndWednesday());
+                loRow.setIndThursday(toLmkBean.getLiIndThursday());
+                loRow.setIndFriday(toLmkBean.getLiIndFriday());
+                loRow.setIndSaturday(toLmkBean.getLiIndSaturday());
+                loRow.setIndSunday(toLmkBean.getLiIndSunday());
+                loRow.setIndEstatus(toLmkBean.getLsIndEstatus());           
+                loRow.setFecLastUpdateDate(getCurrentTimestamp());
+                loRow.setAttribute14(getValueSessionFromAttribute("loggedPgmIntegrationUser"));
+                loRow.setNumCreatedBy(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+                loRow.setNumLastUpdateLogin(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+                loRow.setNumLastUpdatedBy(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+            }//loObj.insertRow(loRow);          
+        } catch (Exception loEx) {
+            System.out.println("update ERROR!!"+loEx.getMessage());
+        }finally{                        
+            getDBTransaction().commit();    
+        }           
+    }
+    
+    /**
+     * Delete en tabla de Configuracion de Cron
+     * @autor Jorge Luis Bautista Santiago  
+     * @param piIdConfiguration     
+     * @return void
+     */
+    public void deleteCronConfigModel(Integer piIdConfiguration) {      
+        try {
+            LmkIntCronConfigTabViewImpl    loObj = 
+                getLmkIntCronConfigTabView1();
+            loObj.setWhereClause("ID_CONFIGURATION = " + piIdConfiguration);
+            loObj.setRangeSize(-1);
+            loObj.executeQuery();            
+            Row[] laRows = loObj.getAllRowsInRange();            
+            if (laRows.length > 0) {
+                for(int liI = 0; liI < laRows.length; liI++){
+                    Row loRow = laRows[liI];
+                    LmkIntCronConfigTabViewRowImpl loRowDelete = 
+                        (LmkIntCronConfigTabViewRowImpl)loRow;           
+                    try{       
+                        loRowDelete.remove();
+                    }catch(Exception loExInt){
+                        System.out.println("Delete interno ERROR!!"+loExInt.getMessage());
+                    }                    
+                }
+            } 
+        } catch (Exception loEx) {
+            System.out.println("Delete ERROR!!"+loEx.getMessage());
+        }finally{                        
+            getDBTransaction().commit();    
+        }  
+    }
+    
+    /******************************* Notifications *************************************/
+    /**
+     * Insert en tabla de Notificaciones
+     * @autor Jorge Luis Bautista Santiago  
+     * @param toLmkBean
+     * @return void
+     */
+    public void insertNotificationsModel(LmkIntNotificationsRowBean toLmkBean) {        
+        LmkIntNotificationsTabViewImpl    loObj = 
+            getLmkIntNotificationsTabView1();
+        
+        LmkIntNotificationsTabViewRowImpl loRow = 
+            (LmkIntNotificationsTabViewRowImpl)loObj.createRow();        
+        try {
+            loRow.setIdNotification(toLmkBean.getLiIdNotification());
+            loRow.setIdService(toLmkBean.getLiIdService());
+            loRow.setIndProcess(toLmkBean.getLiIndProcess());
+            loRow.setIndUsersGroup(toLmkBean.getLsIndUsersGroup());
+            loRow.setIndSubject(toLmkBean.getLsIndSubject());
+            loRow.setIndMessage(toLmkBean.getLsIndMessage());
+            loRow.setIndEstatus(toLmkBean.getLsIndEstatus());           
+            loRow.setFecCreationDate(getCurrentTimestamp());
+            loRow.setFecLastUpdateDate(getCurrentTimestamp());
+            loRow.setAttribute15(getValueSessionFromAttribute("loggedPgmIntegrationUser"));
+            loRow.setNumCreatedBy(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+            loRow.setNumLastUpdateLogin(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+            loRow.setNumLastUpdatedBy(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+            loObj.insertRow(loRow);          
+        } catch (Exception loEx) {
+            System.out.println("Insert ERROR!!"+loEx.getMessage());
+        }finally{                        
+            getDBTransaction().commit();    
+        }           
+    }
+    
+    /**
+     * Update en tabla de Mapeo
+     * @autor Jorge Luis Bautista Santiago  
+     * @param toLmkBean
+     * @return void
+     */
+    public void updateNotificationsModel(LmkIntNotificationsRowBean toLmkBean) { 
+        try {
+            
+            LmkIntNotificationsTabViewImpl    loObj = 
+                getLmkIntNotificationsTabView1();
+            loObj.setWhereClause("ID_NOTIFICATION = " + toLmkBean.getLiIdNotification());
+            loObj.setRangeSize(-1);
+            loObj.executeQuery();            
+            Row[] laRows = loObj.getAllRowsInRange();     
+            if (laRows.length > 0) {
+               Row loRowAr = loObj.getAllRowsInRange()[0];
+               LmkIntNotificationsTabViewRowImpl loRow = 
+                   (LmkIntNotificationsTabViewRowImpl)loRowAr;
+                
+                //loRow.setIdNotification(toLmkBean.getLiIdNotification());
+                loRow.setIdService(toLmkBean.getLiIdService());
+                loRow.setIndProcess(toLmkBean.getLiIndProcess());
+                loRow.setIndUsersGroup(toLmkBean.getLsIndUsersGroup());
+                loRow.setIndSubject(toLmkBean.getLsIndSubject());
+                loRow.setIndMessage(toLmkBean.getLsIndMessage());
+                loRow.setIndEstatus(toLmkBean.getLsIndEstatus());           
+                loRow.setFecLastUpdateDate(getCurrentTimestamp());
+                loRow.setAttribute14(getValueSessionFromAttribute("loggedPgmIntegrationUser"));
+                loRow.setNumLastUpdateLogin(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+                loRow.setNumLastUpdatedBy(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+            }//loObj.insertRow(loRow);          
+        } catch (Exception loEx) {
+            System.out.println("update ERROR!!"+loEx.getMessage());
+        }finally{                        
+            getDBTransaction().commit();    
+        }           
+    }
+    /**
+     * Delete en tabla de Notificaciones
+     * @autor Jorge Luis Bautista Santiago  
+     * @param piIdNotification     
+     * @return void
+     */
+    public void deleteNotificationsModel(Integer piIdNotification) {      
+        try {
+            LmkIntNotificationsTabViewImpl    loObj = 
+                getLmkIntNotificationsTabView1();
+            loObj.setWhereClause("ID_NOTIFICATION = " + piIdNotification);
+            loObj.setRangeSize(-1);
+            loObj.executeQuery();            
+            Row[] laRows = loObj.getAllRowsInRange();            
+            if (laRows.length > 0) {
+                for(int liI = 0; liI < laRows.length; liI++){
+                    Row loRow = laRows[liI];
+                    LmkIntNotificationsTabViewRowImpl loRowDelete = 
+                        (LmkIntNotificationsTabViewRowImpl)loRow;           
+                    try{       
+                        loRowDelete.remove();
+                    }catch(Exception loExInt){
+                        System.out.println("Delete interno ERROR!!"+loExInt.getMessage());
+                    }                    
+                }
+            } 
+        } catch (Exception loEx) {
+            System.out.println("Delete ERROR!!"+loEx.getMessage());
+        }finally{                        
+            getDBTransaction().commit();    
+        }  
+    }
+    
+    
+    
     /******************************* Mapeo *************************************/
     /**
      * Insert en tabla de Mapeo
@@ -209,12 +805,16 @@ public class AppModuleImpl extends ApplicationModuleImpl {
             loRow.setNomRelation(toLmkBean.getLsNomRelation());
             loRow.setNomOrigin(toLmkBean.getLsNomOrigin());
             loRow.setNomDestiny(toLmkBean.getLsNomDestiny());
+            
             loRow.setValValueRelation(toLmkBean.getLsValValueRelation());
             loRow.setValValueOrigin(toLmkBean.getLsValValueOrigin());
             loRow.setValValueDestiny(toLmkBean.getLsValValueDestiny());
+            
             loRow.setIndSysSystem(toLmkBean.getLsIndSysSystem());
             loRow.setIndSysOrigin(toLmkBean.getLsIndSysOrigin());
             loRow.setIndSysDestiny(toLmkBean.getLsIndSysDestiny());
+            
+            loRow.setIndUsedBy(toLmkBean.getLsIndUsedBy());
             loRow.setIndDescription(toLmkBean.getLsIndDescription());
             loRow.setIdMappingRel(toLmkBean.getLiIdMappingRel());                        
             
@@ -263,18 +863,17 @@ public class AppModuleImpl extends ApplicationModuleImpl {
                 loRow.setIndSysSystem(toLmkBean.getLsIndSysSystem());
                 loRow.setIndSysOrigin(toLmkBean.getLsIndSysOrigin());
                 loRow.setIndSysDestiny(toLmkBean.getLsIndSysDestiny());
+                loRow.setIndUsedBy(toLmkBean.getLsIndUsedBy());
                 loRow.setIndDescription(toLmkBean.getLsIndDescription());
                 loRow.setIdMappingRel(toLmkBean.getLiIdMappingRel());
                 loRow.setIndEstatus(toLmkBean.getLsIndEstatus());           
-                loRow.setFecCreationDate(getCurrentTimestamp());
                 loRow.setFecLastUpdateDate(getCurrentTimestamp());
-                loRow.setAttribute15(getValueSessionFromAttribute("loggedPgmIntegrationUser"));
-                loRow.setNumCreatedBy(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+                loRow.setAttribute14(getValueSessionFromAttribute("loggedPgmIntegrationUser"));
                 loRow.setNumLastUpdateLogin(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
                 loRow.setNumLastUpdatedBy(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
             }//loObj.insertRow(loRow);          
         } catch (Exception loEx) {
-            System.out.println("Insert ERROR!!"+loEx.getMessage());
+            System.out.println("update ERROR!!"+loEx.getMessage());
         }finally{                        
             getDBTransaction().commit();    
         }           
@@ -436,8 +1035,8 @@ public class AppModuleImpl extends ApplicationModuleImpl {
      * Container's getter for LmkIntCronConfigTabView1.
      * @return LmkIntCronConfigTabView1
      */
-    public ViewObjectImpl getLmkIntCronConfigTabView1() {
-        return (ViewObjectImpl) findViewObject("LmkIntCronConfigTabView1");
+    public LmkIntCronConfigTabViewImpl getLmkIntCronConfigTabView1() {
+        return (LmkIntCronConfigTabViewImpl) findViewObject("LmkIntCronConfigTabView1");
     }
 
     /**
@@ -452,16 +1051,16 @@ public class AppModuleImpl extends ApplicationModuleImpl {
      * Container's getter for LmkIntNotificationsTabView1.
      * @return LmkIntNotificationsTabView1
      */
-    public ViewObjectImpl getLmkIntNotificationsTabView1() {
-        return (ViewObjectImpl) findViewObject("LmkIntNotificationsTabView1");
+    public LmkIntNotificationsTabViewImpl getLmkIntNotificationsTabView1() {
+        return (LmkIntNotificationsTabViewImpl) findViewObject("LmkIntNotificationsTabView1");
     }
 
     /**
      * Container's getter for LmkIntRequestsTabView1.
      * @return LmkIntRequestsTabView1
      */
-    public ViewObjectImpl getLmkIntRequestsTabView1() {
-        return (ViewObjectImpl) findViewObject("LmkIntRequestsTabView1");
+    public LmkIntRequestsTabViewImpl getLmkIntRequestsTabView1() {
+        return (LmkIntRequestsTabViewImpl) findViewObject("LmkIntRequestsTabView1");
     }
 
     /**
@@ -476,26 +1075,18 @@ public class AppModuleImpl extends ApplicationModuleImpl {
      * Container's getter for LmkIntServicesCatTabView1.
      * @return LmkIntServicesCatTabView1
      */
-    public ViewObjectImpl getLmkIntServicesCatTabView1() {
-        return (ViewObjectImpl) findViewObject("LmkIntServicesCatTabView1");
+    public LmkIntServicesCatTabViewImpl getLmkIntServicesCatTabView1() {
+        return (LmkIntServicesCatTabViewImpl) findViewObject("LmkIntServicesCatTabView1");
     }
 
     /**
      * Container's getter for LmkIntServicesLogTabView1.
      * @return LmkIntServicesLogTabView1
      */
-    public ViewObjectImpl getLmkIntServicesLogTabView1() {
-        return (ViewObjectImpl) findViewObject("LmkIntServicesLogTabView1");
+    public LmkIntServicesLogTabViewImpl getLmkIntServicesLogTabView1() {
+        return (LmkIntServicesLogTabViewImpl) findViewObject("LmkIntServicesLogTabView1");
     }
-
-    /**
-     * Container's getter for LmkIntServicesParamsTabView1.
-     * @return LmkIntServicesParamsTabView1
-     */
-    public ViewObjectImpl getLmkIntServicesParamsTabView1() {
-        return (ViewObjectImpl) findViewObject("LmkIntServicesParamsTabView1");
-    }
-
+    
     /**
      * Container's getter for LmkIntXmlFilesTabView1.
      * @return LmkIntXmlFilesTabView1
@@ -518,6 +1109,22 @@ public class AppModuleImpl extends ApplicationModuleImpl {
      */
     public ViewObjectImpl getLmkIntMappingCatVwView1() {
         return (ViewObjectImpl) findViewObject("LmkIntMappingCatVwView1");
+    }
+
+    /**
+     * Container's getter for LmkIntNotificationsVwView1.
+     * @return LmkIntNotificationsVwView1
+     */
+    public ViewObjectImpl getLmkIntNotificationsVwView1() {
+        return (ViewObjectImpl) findViewObject("LmkIntNotificationsVwView1");
+    }
+
+    /**
+     * Container's getter for LmkIntServicesParamsTabView1.
+     * @return LmkIntServicesParamsTabView1
+     */
+    public LmkIntServicesParamsTabViewImpl getLmkIntServicesParamsTabView1() {
+        return (LmkIntServicesParamsTabViewImpl) findViewObject("LmkIntServicesParamsTabView1");
     }
 }
 

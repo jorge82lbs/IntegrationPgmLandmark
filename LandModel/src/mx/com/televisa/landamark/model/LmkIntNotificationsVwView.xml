@@ -3,7 +3,7 @@
 <!---->
 <ViewObject
   xmlns="http://xmlns.oracle.com/bc4j"
-  Name="LmkIntServicesCatTabView"
+  Name="LmkIntNotificationsVwView"
   Version="12.1.3.10.47"
   InheritPersonalization="merge"
   SelectListFlags="1"
@@ -12,198 +12,201 @@
   BindingStyle="JDBC"
   CustomQuery="false"
   SelectAllAttributes="false"
-  PageIterMode="Full"
-  RowClass="mx.com.televisa.landamark.model.LmkIntServicesCatTabViewRowImpl"
-  ComponentClass="mx.com.televisa.landamark.model.LmkIntServicesCatTabViewImpl">
-  <DesignTime>
-    <Attr Name="_codeGenFlag2" Value="Access|Coll|VarAccess"/>
-    <Attr Name="_isCodegen" Value="true"/>
-  </DesignTime>
+  PageIterMode="Full">
   <EntityUsage
-    Name="LmkIntServicesCatTab"
-    Entity="mx.com.televisa.landamark.model.LmkIntServicesCatTab"/>
+    Name="LmkIntNotificationsVw"
+    Entity="mx.com.televisa.landamark.model.LmkIntNotificationsVw"/>
+  <ViewAttribute
+    Name="IdNotification"
+    PrecisionRule="true"
+    EntityAttrName="IdNotification"
+    EntityUsage="LmkIntNotificationsVw"
+    AliasName="ID_NOTIFICATION"/>
   <ViewAttribute
     Name="IdService"
     PrecisionRule="true"
     EntityAttrName="IdService"
-    EntityUsage="LmkIntServicesCatTab"
+    EntityUsage="LmkIntNotificationsVw"
     AliasName="ID_SERVICE"/>
   <ViewAttribute
     Name="NomService"
+    IsNotNull="true"
     PrecisionRule="true"
     EntityAttrName="NomService"
-    EntityUsage="LmkIntServicesCatTab"
+    EntityUsage="LmkIntNotificationsVw"
     AliasName="NOM_SERVICE"/>
   <ViewAttribute
-    Name="IndDescService"
+    Name="IndProcess"
     PrecisionRule="true"
-    EntityAttrName="IndDescService"
-    EntityUsage="LmkIntServicesCatTab"
-    AliasName="IND_DESC_SERVICE"/>
+    EntityAttrName="IndProcess"
+    EntityUsage="LmkIntNotificationsVw"
+    AliasName="IND_PROCESS"/>
   <ViewAttribute
-    Name="IndServiceWsdl"
+    Name="NomProcess"
+    IsNotNull="true"
     PrecisionRule="true"
-    EntityAttrName="IndServiceWsdl"
-    EntityUsage="LmkIntServicesCatTab"
-    AliasName="IND_SERVICE_WSDL"/>
+    EntityAttrName="NomProcess"
+    EntityUsage="LmkIntNotificationsVw"
+    AliasName="NOM_PROCESS"/>
   <ViewAttribute
-    Name="IndOrigin"
+    Name="IndUsersGroup"
     PrecisionRule="true"
-    EntityAttrName="IndOrigin"
-    EntityUsage="LmkIntServicesCatTab"
-    AliasName="IND_ORIGIN"/>
+    EntityAttrName="IndUsersGroup"
+    EntityUsage="LmkIntNotificationsVw"
+    AliasName="IND_USERS_GROUP"/>
   <ViewAttribute
-    Name="IndDestiny"
+    Name="NomGroup"
+    IsNotNull="true"
     PrecisionRule="true"
-    EntityAttrName="IndDestiny"
-    EntityUsage="LmkIntServicesCatTab"
-    AliasName="IND_DESTINY"/>
+    EntityAttrName="NomGroup"
+    EntityUsage="LmkIntNotificationsVw"
+    AliasName="NOM_GROUP"/>
   <ViewAttribute
-    Name="IndSystem"
+    Name="IndSubject"
     PrecisionRule="true"
-    EntityAttrName="IndSystem"
-    EntityUsage="LmkIntServicesCatTab"
-    AliasName="IND_SYSTEM"/>
+    EntityAttrName="IndSubject"
+    EntityUsage="LmkIntNotificationsVw"
+    AliasName="IND_SUBJECT"/>
   <ViewAttribute
-    Name="IndSynchronous"
+    Name="IndMessage"
     PrecisionRule="true"
-    EntityAttrName="IndSynchronous"
-    EntityUsage="LmkIntServicesCatTab"
-    AliasName="IND_SYNCHRONOUS"/>
+    EntityAttrName="IndMessage"
+    EntityUsage="LmkIntNotificationsVw"
+    AliasName="IND_MESSAGE"/>
   <ViewAttribute
     Name="IndEstatus"
     PrecisionRule="true"
     EntityAttrName="IndEstatus"
-    EntityUsage="LmkIntServicesCatTab"
+    EntityUsage="LmkIntNotificationsVw"
     AliasName="IND_ESTATUS"/>
   <ViewAttribute
     Name="AttributeCategory"
     PrecisionRule="true"
     EntityAttrName="AttributeCategory"
-    EntityUsage="LmkIntServicesCatTab"
+    EntityUsage="LmkIntNotificationsVw"
     AliasName="ATTRIBUTE_CATEGORY"/>
   <ViewAttribute
     Name="Attribute1"
     PrecisionRule="true"
     EntityAttrName="Attribute1"
-    EntityUsage="LmkIntServicesCatTab"
+    EntityUsage="LmkIntNotificationsVw"
     AliasName="ATTRIBUTE1"/>
   <ViewAttribute
     Name="Attribute2"
     PrecisionRule="true"
     EntityAttrName="Attribute2"
-    EntityUsage="LmkIntServicesCatTab"
+    EntityUsage="LmkIntNotificationsVw"
     AliasName="ATTRIBUTE2"/>
   <ViewAttribute
     Name="Attribute3"
     PrecisionRule="true"
     EntityAttrName="Attribute3"
-    EntityUsage="LmkIntServicesCatTab"
+    EntityUsage="LmkIntNotificationsVw"
     AliasName="ATTRIBUTE3"/>
   <ViewAttribute
     Name="Attribute4"
     PrecisionRule="true"
     EntityAttrName="Attribute4"
-    EntityUsage="LmkIntServicesCatTab"
+    EntityUsage="LmkIntNotificationsVw"
     AliasName="ATTRIBUTE4"/>
   <ViewAttribute
     Name="Attribute5"
     PrecisionRule="true"
     EntityAttrName="Attribute5"
-    EntityUsage="LmkIntServicesCatTab"
+    EntityUsage="LmkIntNotificationsVw"
     AliasName="ATTRIBUTE5"/>
   <ViewAttribute
     Name="Attribute6"
     PrecisionRule="true"
     EntityAttrName="Attribute6"
-    EntityUsage="LmkIntServicesCatTab"
+    EntityUsage="LmkIntNotificationsVw"
     AliasName="ATTRIBUTE6"/>
   <ViewAttribute
     Name="Attribute7"
     PrecisionRule="true"
     EntityAttrName="Attribute7"
-    EntityUsage="LmkIntServicesCatTab"
+    EntityUsage="LmkIntNotificationsVw"
     AliasName="ATTRIBUTE7"/>
   <ViewAttribute
     Name="Attribute8"
     PrecisionRule="true"
     EntityAttrName="Attribute8"
-    EntityUsage="LmkIntServicesCatTab"
+    EntityUsage="LmkIntNotificationsVw"
     AliasName="ATTRIBUTE8"/>
   <ViewAttribute
     Name="Attribute9"
     PrecisionRule="true"
     EntityAttrName="Attribute9"
-    EntityUsage="LmkIntServicesCatTab"
+    EntityUsage="LmkIntNotificationsVw"
     AliasName="ATTRIBUTE9"/>
   <ViewAttribute
     Name="Attribute10"
     PrecisionRule="true"
     EntityAttrName="Attribute10"
-    EntityUsage="LmkIntServicesCatTab"
+    EntityUsage="LmkIntNotificationsVw"
     AliasName="ATTRIBUTE10"/>
   <ViewAttribute
     Name="Attribute11"
     PrecisionRule="true"
     EntityAttrName="Attribute11"
-    EntityUsage="LmkIntServicesCatTab"
+    EntityUsage="LmkIntNotificationsVw"
     AliasName="ATTRIBUTE11"/>
   <ViewAttribute
     Name="Attribute12"
     PrecisionRule="true"
     EntityAttrName="Attribute12"
-    EntityUsage="LmkIntServicesCatTab"
+    EntityUsage="LmkIntNotificationsVw"
     AliasName="ATTRIBUTE12"/>
   <ViewAttribute
     Name="Attribute13"
     PrecisionRule="true"
     EntityAttrName="Attribute13"
-    EntityUsage="LmkIntServicesCatTab"
+    EntityUsage="LmkIntNotificationsVw"
     AliasName="ATTRIBUTE13"/>
   <ViewAttribute
     Name="Attribute14"
     PrecisionRule="true"
     EntityAttrName="Attribute14"
-    EntityUsage="LmkIntServicesCatTab"
+    EntityUsage="LmkIntNotificationsVw"
     AliasName="ATTRIBUTE14"/>
   <ViewAttribute
     Name="Attribute15"
     PrecisionRule="true"
     EntityAttrName="Attribute15"
-    EntityUsage="LmkIntServicesCatTab"
+    EntityUsage="LmkIntNotificationsVw"
     AliasName="ATTRIBUTE15"/>
   <ViewAttribute
     Name="FecCreationDate"
     IsNotNull="true"
     PrecisionRule="true"
     EntityAttrName="FecCreationDate"
-    EntityUsage="LmkIntServicesCatTab"
+    EntityUsage="LmkIntNotificationsVw"
     AliasName="FEC_CREATION_DATE"/>
   <ViewAttribute
     Name="NumCreatedBy"
     IsNotNull="true"
     PrecisionRule="true"
     EntityAttrName="NumCreatedBy"
-    EntityUsage="LmkIntServicesCatTab"
+    EntityUsage="LmkIntNotificationsVw"
     AliasName="NUM_CREATED_BY"/>
   <ViewAttribute
     Name="FecLastUpdateDate"
     IsNotNull="true"
     PrecisionRule="true"
     EntityAttrName="FecLastUpdateDate"
-    EntityUsage="LmkIntServicesCatTab"
+    EntityUsage="LmkIntNotificationsVw"
     AliasName="FEC_LAST_UPDATE_DATE"/>
   <ViewAttribute
     Name="NumLastUpdatedBy"
     IsNotNull="true"
     PrecisionRule="true"
     EntityAttrName="NumLastUpdatedBy"
-    EntityUsage="LmkIntServicesCatTab"
+    EntityUsage="LmkIntNotificationsVw"
     AliasName="NUM_LAST_UPDATED_BY"/>
   <ViewAttribute
     Name="NumLastUpdateLogin"
     PrecisionRule="true"
     EntityAttrName="NumLastUpdateLogin"
-    EntityUsage="LmkIntServicesCatTab"
+    EntityUsage="LmkIntNotificationsVw"
     AliasName="NUM_LAST_UPDATE_LOGIN"/>
 </ViewObject>

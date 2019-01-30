@@ -24,6 +24,7 @@ import mx.com.televisa.landamark.client.operations.SecmanDasOperacionesUsuario;
 import mx.com.televisa.landamark.client.operations.SecmanDasOperacionesUsuarioService;
 import mx.com.televisa.landamark.client.userpermission.SecmanDasUsuarioPermisos;
 import mx.com.televisa.landamark.client.userpermission.SecmanDasUsuarioPermisosService;
+import mx.com.televisa.landamark.client.userpermission.types.DescUsuario;
 import mx.com.televisa.landamark.client.userpermission.types.PermisoOutputCollection;
 import mx.com.televisa.landamark.client.userpermission.types.PermisosUsuarioInputParameters;
 import mx.com.televisa.landamark.client.userpermission.types.Usuario;
@@ -71,6 +72,7 @@ public class SecurityManagerWs {
             System.out.println("ERROR " + loEx.getMessage());
             loSecmanUser = null;
         }
+        
         return loSecmanUser;
     }
     

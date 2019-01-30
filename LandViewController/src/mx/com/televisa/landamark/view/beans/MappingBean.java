@@ -279,7 +279,7 @@ public class MappingBean {
         FacesContext       loContext = FacesContext.getCurrentInstance();
         ExternalContext    loEctx = loContext.getExternalContext();
         String             lsUrl = 
-            loEctx.getRequestContextPath() + "/faces/mappingConfigPage";        
+            loEctx.getRequestContextPath() + "/faces/mappingPage";        
         try {
             loEctx.redirect(lsUrl);
         } catch (IOException loEx) {
@@ -588,7 +588,8 @@ public class MappingBean {
             loMd.getListGeneralParametersModelFilter("SYSTEMS_INTEGRATION");
         for(SelectOneItemBean loWs: laAllWs){
             SelectItem loItm = new SelectItem();           
-            loItm.setValue(loWs.getLsId());
+            //loItm.setValue(loWs.getLsId());
+            loItm.setValue(loWs.getLsValue());
             loItm.setDescription(loWs.getLsDescription());
             loItm.setLabel(loWs.getLsValue());
             laList.add(loItm);

@@ -12,7 +12,13 @@
   BindingStyle="JDBC"
   CustomQuery="false"
   SelectAllAttributes="false"
-  PageIterMode="Full">
+  PageIterMode="Full"
+  RowClass="mx.com.televisa.landamark.model.LmkIntCronConfigTabViewRowImpl"
+  ComponentClass="mx.com.televisa.landamark.model.LmkIntCronConfigTabViewImpl">
+  <DesignTime>
+    <Attr Name="_codeGenFlag2" Value="Access|Coll|VarAccess"/>
+    <Attr Name="_isCodegen" Value="true"/>
+  </DesignTime>
   <EntityUsage
     Name="LmkIntCronConfigTab"
     Entity="mx.com.televisa.landamark.model.LmkIntCronConfigTab"/>
