@@ -106,6 +106,7 @@
          <string v="WSPolicy"/>
          <string v="WebServices"/>
          <string v="XML"/>
+         <string v="XML_SCHEMA"/>
       </list>
    </hash>
    <hash n="oracle.jdeveloper.compiler.OjcConfiguration">

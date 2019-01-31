@@ -3,7 +3,7 @@
           xmlns:af="http://xmlns.oracle.com/adf/faces/rich">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <f:view>
-        <af:document title="Integración Paradigm-Landmark" id="d1" smallIconSource="/images/monitor-arrow-icon.png"
+        <af:document title="Integración Landmark" id="d1" smallIconSource="/images/system-monitor-arrow-icon.png"
                      initialFocusId="TxtUsuario" inlineStyle='background-image:url("images/background-07.jpg");'>
             <af:form id="FrmLogin" defaultCommand="BtnIngresar">
                 <af:resource type="javascript">
@@ -46,7 +46,7 @@
                             <f:facet name="center"> 
                                 <af:panelFormLayout id="PnlLoginLogoLbl" inlineStyle="border-style:none;">
                                     <af:spacer width="2" height="8" id="SpcLogin3"/>
-                                    <af:outputLabel value="Integraci&#243;n Paradigm-Landmark" id="LblhdrInfo"
+                                    <af:outputLabel value="Integraci&#243;n Landmark" id="LblhdrInfo"
                                                     inlineStyle="color:Navy; font-size:x-large;"/>
                                     <af:outputLabel value="Monitoreo de Servicios Web y Archivos Generados" id="LblhdrInfoSma"
                                                     inlineStyle="color:Orange; font-size:large;"/>
@@ -102,7 +102,7 @@
                 <af:popup id="p1oadLogin" contentDelivery="immediate">
                   <af:dialog id="dLogin" type="none" title="Validando Información de Usuario" closeIconVisible="false">
                     <af:panelGroupLayout id="Pnlpgl1Login" layout="vertical" halign="center">
-                      <af:image source="/images/upload_file.gif" id="ImgIdxLoad" shortDesc="Cargando..."/>
+                      <af:image source="/images/loading110.gif" id="ImgIdxLoad" shortDesc="Cargando..."/>
                       <af:outputText value="... por favor espere." id="LblIdxLoad1Login"/>
                     </af:panelGroupLayout>
                   </af:dialog>

@@ -95,4 +95,9 @@
     <managed-bean-class>mx.com.televisa.landamark.view.beans.NotificationsBean</managed-bean-class>
     <managed-bean-scope>request</managed-bean-scope>
   </managed-bean>
+  <managed-bean id="__17">
+    <managed-bean-name>ProcessBean</managed-bean-name>
+    <managed-bean-class>mx.com.televisa.landamark.view.beans.ProcessBean</managed-bean-class>
+    <managed-bean-scope>request</managed-bean-scope>
+  </managed-bean>
 </adfc-config>

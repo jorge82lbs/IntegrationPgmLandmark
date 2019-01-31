@@ -3,7 +3,7 @@
           xmlns:af="http://xmlns.oracle.com/adf/faces/rich">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <f:view>
-        <af:document title="Notificaciones" id="d1" smallIconSource="/images/monitor-arrow-icon.png">
+        <af:document title="Notificaciones" id="d1" smallIconSource="/images/system-monitor-arrow-icon.png">
             <af:messages id="m1"/>
             <af:form id="f1">
             <af:resource type="javascript">
@@ -543,7 +543,7 @@
                 <af:popup id="popLoading" contentDelivery="immediate">
                   <af:dialog id="dlgLoading" type="none" title="Procesando Información" closeIconVisible="false">
                     <af:panelGroupLayout id="PnlLoading" layout="vertical" halign="center">
-                      <af:image source="/images/upload_file.gif" id="ImgIdxLoad" shortDesc="Espere..."/>
+                      <af:image source="/images/loading110.gif" id="ImgIdxLoad" shortDesc="Espere..."/>
                       <af:outputText value="... por favor espere." id="LblIdxLoad1Login"/>
                     </af:panelGroupLayout>
                   </af:dialog>

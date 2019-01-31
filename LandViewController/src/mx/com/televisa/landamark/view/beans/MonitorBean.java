@@ -248,12 +248,12 @@ public class MonitorBean {
             (java.util.Date)getPoFinalDate().getValue(); 
         
         if(ltDateIni != null){
-            lsQuery += " AND FEC_REQUEST >= '" + 
-                       convertDateMask(ltDateIni, "yyyy-MM-dd") + "'";
+            lsQuery += " AND DATE(FEC_REQUEST) >= DATE('" + 
+                       convertDateMask(ltDateIni, "yyyy-MM-dd") + "')";
         }
         if(ltDateFin != null){
-            lsQuery += " AND FEC_REQUEST <= '" + 
-                       convertDateMask(ltDateFin, "yyyy-MM-dd") + "'";                
+            lsQuery += " AND DATE(FEC_REQUEST) <= DATE('" + 
+                       convertDateMask(ltDateFin, "yyyy-MM-dd") + ")'";                
         }
         
         new UtilFaces().refreshTableWhereIterator(lsQuery, lsEntityIterator, getPoTblLog());
@@ -438,13 +438,13 @@ public class MonitorBean {
             AppModuleImpl  loService = (AppModuleImpl)loAm;
             try{
                 //Crear bean front de la tabla, minimo con nomArch y con el stream
-                LmkIntXmlFilesRowBean loEvetvIntXmlFilesRowBean = 
+                LmkIntXmlFilesRowBean loLmkIntXmlFilesRowBean = 
                     loService.getRowXmlFilesModel(Integer.parseInt(lsIdRequest), 
                                                   Integer.parseInt(lsIdService), 
                                                   lsTypeService
                                                 );
-                if(loEvetvIntXmlFilesRowBean != null){
-                    if(loEvetvIntXmlFilesRowBean.getLiIdRequest() > 0){
+                if(loLmkIntXmlFilesRowBean != null){
+                    if(loLmkIntXmlFilesRowBean.getLiIdRequest() > 0){
                         Blob loFileBlob = loService.getBlobFileXml(lsIdRequest,
                                                               lsIdService,
                                                               lsTypeService);       
@@ -457,7 +457,7 @@ public class MonitorBean {
                             }else{
                                 loResponse.setHeader("Content-Disposition",
                                                      "attachment; filename=\"" +
-                                                     loEvetvIntXmlFilesRowBean.getLsNomFile() + "\"");
+                                                     loLmkIntXmlFilesRowBean.getLsNomFile() + "\"");
                                 ServletOutputStream loOS =loResponse.getOutputStream();        
                                 try{
                                     IOUtils.copy(loIS, loOS);    
@@ -585,4 +585,7 @@ public class MonitorBean {
         return lsConfig;
     }
 
+    public void showParrillasDetails(ActionEvent actionEvent) {
+        // Add event code here...
+    }
 }

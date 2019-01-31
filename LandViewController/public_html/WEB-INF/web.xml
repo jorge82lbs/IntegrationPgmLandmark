@@ -132,7 +132,7 @@
       <welcome-file>/faces/indexPage</welcome-file>
    </welcome-file-list>
   <resource-ref>
-      <description>Integration Paradigm Data Source</description>
+      <description>Integration Landmark Data Source</description>
       <res-ref-name>jdbc/MOR_DS_PG1</res-ref-name>
       <res-type>javax.sql.DataSource</res-type>
       <res-auth>Container</res-auth>

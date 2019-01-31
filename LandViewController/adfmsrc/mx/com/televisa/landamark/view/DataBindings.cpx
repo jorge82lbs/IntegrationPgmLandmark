@@ -6,12 +6,16 @@
     <page path="/pages/bitacoraPage.jspx" usageId="mx_com_televisa_landamark_view_bitacoraPagePageDef"/>
     <page path="/pages/mappingPage.jspx" usageId="mx_com_televisa_landamark_view_mappingPagePageDef"/>
     <page path="/pages/notificationsPage.jspx" usageId="mx_com_televisa_landamark_view_notificationsPagePageDef"/>
+    <page path="/pages/monitorPage.jspx" usageId="mx_com_televisa_landamark_view_monitorPagePageDef"/>
+    <page path="/pages/processPage.jspx" usageId="mx_com_televisa_landamark_view_processPagePageDef"/>
   </pageMap>
   <pageDefinitionUsages>
     <page id="mx_com_televisa_landamark_view_gralConfigPagePageDef" path="pages.gralConfigPagePageDef"/>
     <page id="mx_com_televisa_landamark_view_bitacoraPagePageDef" path="pages.bitacoraPagePageDef"/>
     <page id="mx_com_televisa_landamark_view_mappingPagePageDef" path="pages.mappingPagePageDef"/>
     <page id="mx_com_televisa_landamark_view_notificationsPagePageDef" path="pages.notificationsPagePageDef"/>
+    <page id="mx_com_televisa_landamark_view_monitorPagePageDef" path="pages.monitorPagePageDef"/>
+    <page id="mx_com_televisa_landamark_view_processPagePageDef" path="pages.processPagePageDef"/>
   </pageDefinitionUsages>
   <dataControlUsages>
     <BC4JDataControl id="AppModuleDataControl" Package="mx.com.televisa.landamark.model"

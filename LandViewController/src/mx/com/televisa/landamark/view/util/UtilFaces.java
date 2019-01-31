@@ -1,11 +1,11 @@
 /**
-* Project: Integration Paradigm-eVeTV
+* Project: Integration Landmark
 *
 * File: UtilFaces.java
 *
-* Created on:  Septiembre 6, 2013 at 11:00
+* Created on:  Febrero 6, 2019 at 11:00
 *
-* Copyright (c) - Omw - 2017
+* Copyright (c) - Omw - 2019
 */
 package mx.com.televisa.landamark.view.util;
 
@@ -60,7 +60,7 @@ import sun.misc.BASE64Encoder;
  *
  * @version 01.00.01
  *
- * @date Septiembre 14, 2017, 12:00 pm
+ * @date Febrero 14, 2017, 12:00 pm
  */
 public class UtilFaces {
     

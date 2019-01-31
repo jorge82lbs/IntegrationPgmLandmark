@@ -68,6 +68,10 @@ public class ViewObjectDao implements ViewObjectInterface{
             lsTable = "EVENTAS.LMK_INT_CONFIG_PARAM_TAB";
             lsField = "ID_PARAMETER";
         }
+        if(tsTable.equalsIgnoreCase("ServParameters")){
+            lsTable = "EVENTAS.LMK_INT_SERVICES_PARAMS_TAB";
+            lsField = "ID_PARAMETER_SERV";
+        }
         if(tsTable.equalsIgnoreCase("Mapping")){
             lsTable = "EVENTAS.LMK_INT_MAPPING_CAT_TAB";
             lsField = "ID_MAPPING";

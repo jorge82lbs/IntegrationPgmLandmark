@@ -55,4 +55,10 @@
   <ViewUsage
     Name="LmkIntServicesParamsTabView1"
     ViewObjectName="mx.com.televisa.landamark.model.LmkIntServicesParamsTabView"/>
+  <ViewUsage
+    Name="LmkIntServicesCatVwView1"
+    ViewObjectName="mx.com.televisa.landamark.model.LmkIntServicesCatVwView"/>
+  <ViewUsage
+    Name="LmkIntServicesLogVwView1"
+    ViewObjectName="mx.com.televisa.landamark.model.LmkIntServicesLogVwView"/>
 </AppModule>

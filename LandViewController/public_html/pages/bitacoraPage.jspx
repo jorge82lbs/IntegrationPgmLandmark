@@ -3,7 +3,7 @@
           xmlns:af="http://xmlns.oracle.com/adf/faces/rich">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <f:view>
-        <af:document title="Bitácora" id="d1" smallIconSource="/images/monitor-arrow-icon.png">
+        <af:document title="Bitácora" id="d1" smallIconSource="/images/system-monitor-arrow-icon.png">
             <af:messages id="m1"/>
             <af:form id="f1">
             <af:resource type="javascript">
@@ -128,7 +128,7 @@
                                         <af:spacer width="10" height="10" id="s33"/>
                                         <af:button text="Buscar por Filtros"
                                                   id="BtnSearch"
-                                                  icon="/images/ver_orden.gif"
+                                                  icon="/images/View.gif"
                                                   shortDesc="Buscar Elementos"
                                                   action="#{BitacoraBean.searchFilterLogServicesAction}"/>
                                       </af:panelFormLayout>
@@ -221,7 +221,7 @@
                                     <af:column sortProperty="#{bindings.LmkIntServicesBitacoraVwView1.hints.NumPgmProcessId.name}"
                                                filterable="false" sortable="true" 
                                                visible="false"
-                                               headerText="ID Paradigm"
+                                               headerText="ID"
                                                id="c8">
                                         <af:outputText value="#{row.NumPgmProcessId}"
                                                        shortDesc="#{bindings.LmkIntServicesBitacoraVwView1.hints.NumPgmProcessId.tooltip}"
@@ -286,7 +286,7 @@
                 <af:popup id="popLoading" contentDelivery="immediate">
                   <af:dialog id="dlgLoading" type="none" title="Procesando Información" closeIconVisible="false">
                     <af:panelGroupLayout id="PnlLoading" layout="vertical" halign="center">
-                      <af:image source="/images/upload_file.gif" id="ImgIdxLoad" shortDesc="Espere..."/>
+                      <af:image source="/images/loading110.gif" id="ImgIdxLoad" shortDesc="Espere..."/>
                       <af:outputText value="... por favor espere." id="LblIdxLoad1Login"/>
                     </af:panelGroupLayout>
                   </af:dialog>

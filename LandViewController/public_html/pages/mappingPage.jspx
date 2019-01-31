@@ -3,7 +3,7 @@
           xmlns:af="http://xmlns.oracle.com/adf/faces/rich">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <f:view>
-        <af:document title="Mapeo" id="d1" smallIconSource="/images/monitor-arrow-icon.png">
+        <af:document title="Mapeo" id="d1" smallIconSource="/images/system-monitor-arrow-icon.png">
             <af:messages id="m1"/>
             <af:form id="f1">
             <af:resource type="javascript">
@@ -167,7 +167,7 @@
                                         <af:spacer width="10" height="10" id="s33"/>
                                         <af:button text="Buscar por Filtros"
                                                   id="BtnSearch"
-                                                  icon="/images/ver_orden.gif"
+                                                  icon="/images/View.gif"
                                                   shortDesc="Buscar Elementos"
                                                   action="#{MappingBean.searchFilterAction}"/>
                                         </af:panelFormLayout>
@@ -195,7 +195,7 @@
                                         width="85">
                                     <f:facet name="header">
                                     <af:group id="g2">
-                                        <af:link icon="/images/Add.gif"
+                                        <af:link icon="/images/Create.gif"
                                                    id="LnkAlta" text="Nuevo"
                                                    inlineStyle="text-align:center;"
                                                    shortDesc="Alta"
@@ -205,14 +205,14 @@
                                     <af:panelGroupLayout layout="horizontal"
                                                         id="PnlOpc" valign="top"
                                                         halign="left">
-                                        <af:link icon="/images/editar.gif"
+                                        <af:link icon="/images/editIcon_int.png"
                                                  id="LnkEditSweb"
                                                  partialSubmit="true"
                                                  inlineStyle="text-align:center;"
                                                  actionListener="#{MappingBean.showEditPopup}"
                                                  shortDesc="Editar"/>
                                         <af:spacer width="10" id="s8r911w" height="5"/>
-                                        <af:link icon="/images/eliminar.gif"
+                                        <af:link icon="/images/deleteIcon_int.png"
                                                  id="LnkDelSweb"
                                                  inlineStyle="text-align:center;"
                                                  partialSubmit="true"
@@ -739,7 +739,7 @@
                 <af:popup id="popLoading" contentDelivery="immediate">
                   <af:dialog id="dlgLoading" type="none" title="Procesando Información" closeIconVisible="false">
                     <af:panelGroupLayout id="PnlLoading" layout="vertical" halign="center">
-                      <af:image source="/images/upload_file.gif" id="ImgIdxLoad" shortDesc="Espere..."/>
+                      <af:image source="/images/loading110.gif" id="ImgIdxLoad" shortDesc="Espere..."/>
                       <af:outputText value="... por favor espere." id="LblIdxLoad1Login"/>
                     </af:panelGroupLayout>
                   </af:dialog>

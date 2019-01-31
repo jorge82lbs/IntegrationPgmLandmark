@@ -8,7 +8,7 @@
       <component xmlns="http://xmlns.oracle.com/adf/faces/rich/component">
         <display-name>pgmLandTemplate</display-name>
         <facet>
-          <description>Content of Integration Paradigm-Landmark Application</description>
+          <description>Content of Integration Landmark Application</description>
           <facet-name>content</facet-name>
         </facet>
       </component>
@@ -39,7 +39,7 @@
                       <af:outputLabel value="Monitoreo y Configuración de Servicios" id="LblTemp8Cen"
                                       inlineStyle="color:#18345B; font-size:small; font-weight:bold;"
                                       />      
-                      <af:outputLabel value="Integraci&#243;n Paradigm - Landmark" id="LblTemp8CenHbyn"
+                      <af:outputLabel value="Integraci&#243;n Landmark" id="LblTemp8CenHbyn"
                                       inlineStyle="color:#18345B;"
                                       />      
                   </af:panelGroupLayout>
@@ -119,12 +119,12 @@
                                         <af:commandMenuItem id="MnuTemp121" text="Parámetros Generales" 
                                                             shortDesc="Parámetros Generales"
                                                             action="gralConfigPage"
-                                                            icon="/images/grales16x16.png"/>
+                                                            icon="/images/Wrench.gif"/>
                                         
                                         <af:commandMenuItem id="MnuTemp1212" text="Bitácora" 
                                                             shortDesc="Bitácora de Servicios"
                                                             action="bitacoraPage"
-                                                            icon="/images/page_tick.gif"/>
+                                                            icon="/images/page_find.gif"/>
                                                             
                                         <af:commandMenuItem id="MnuTemp13" text="Salir"
                                                             partialSubmit="true"
@@ -144,14 +144,14 @@
                                             inlineStyle="border-style:none;"
                                             modal="true" 
                                             closeIconVisible="false"
-                                            title="Salir Integración Paradigm-Landmark" 
+                                            title="Salir Integración Landmark" 
                                             titleIconSource="/images/logout2-icon16x16.png">
                                 <af:panelGroupLayout layout="vertical" 
                                                      id="PnlSalirMsg" 
                                                      inlineStyle="border-style:none;" 
                                                      valign="middle" 
                                                      halign="center">
-                                    <af:panelLabelAndMessage label="¿Desea Salir de Integración Paradigm-Landmark?" 
+                                    <af:panelLabelAndMessage label="¿Desea Salir de Integración Landmark?" 
                                                              id="PnlLblMsgSalir"                                                    
                                                              inlineStyle="border-style:none; color:Olive;"/>
                                     <af:spacer width="50" height="25" id="SpcLoadOrder10Salir"/>

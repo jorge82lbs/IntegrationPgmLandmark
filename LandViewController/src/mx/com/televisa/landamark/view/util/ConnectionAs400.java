@@ -3,9 +3,9 @@
 *
 * File: ConnectionAs400.java
 *
-* Created on:  Septiembre 6, 2017 at 11:00
+* Created on:  Febrero 6, 2019 at 11:00
 *
-* Copyright (c) - Omw - 2017
+* Copyright (c) - Omw - 2019
 */
 package mx.com.televisa.landamark.view.util;
 
@@ -22,7 +22,7 @@ import javax.sql.DataSource;
  *
  * @version 01.00.01
  *
- * @date Septiembre 14, 2017, 12:00 pm
+ * @date Febrero 14, 2019, 12:00 pm
  */
 public class ConnectionAs400 {
     private String gsDataSource = "java:comp/env/jdbc/MOR_DS_PG1";

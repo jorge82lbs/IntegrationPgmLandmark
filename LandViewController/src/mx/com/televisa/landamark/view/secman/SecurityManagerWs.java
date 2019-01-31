@@ -1,11 +1,11 @@
 /**
-* Project: Integration Paradigm-eVeTV
+* Project: Integration Landmark
 *
 * File: SecurityManagerWs.java
 *
 * Created on:  Enero 23, 2019 at 11:00
 *
-* Copyright (c) - Omw - 2017
+* Copyright (c) - Omw - 2019s
 */
 package mx.com.televisa.landamark.view.secman;
 

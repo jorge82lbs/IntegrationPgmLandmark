@@ -200,6 +200,66 @@ public class AppModuleImpl extends ApplicationModuleImpl {
     /******************************* Configuracion de Parametros de Servicios *************************************/
     
     /**
+     * Delete en tabla de Configuracion de Parametros Servicios
+     * @autor Jorge Luis Bautista Santiago  
+     * @param piIdService   
+     * @return void
+     */
+    public void deleteServicesParamsModelByServ(Integer piIdService) {             
+        try {
+            LmkIntServicesParamsTabViewImpl    loObj = 
+                getLmkIntServicesParamsTabView1();
+            String lsWhere = "ID_SERVICE = " + piIdService;
+            loObj.setWhereClause(lsWhere);
+            loObj.setRangeSize(-1);
+            loObj.executeQuery();            
+            Row[] laRows = loObj.getAllRowsInRange();            
+            if (laRows.length > 0) {
+                for(int liI = 0; liI < laRows.length; liI++){
+                    Row loRow = laRows[liI];
+                    LmkIntServicesParamsTabViewRowImpl loRowDelete = 
+                        (LmkIntServicesParamsTabViewRowImpl)loRow;           
+                    try{       
+                        loRowDelete.remove();
+                    }catch(Exception loExInt){
+                        System.out.println("Delete interno ERROR!!"+loExInt.getMessage());
+                    }                    
+                }
+            } 
+        } catch (Exception loEx) {
+            System.out.println("Delete ERROR!!"+loEx.getMessage());
+        }finally{                        
+            getDBTransaction().commit();    
+        }  
+    }
+    
+    /**
+     * Valida si un servicio ya existe en la tabla de parametros de servicios
+     * @autor Jorge Luis Bautista Santiago  
+     * @param tiIdService     
+     * @return void
+     */
+    public Integer validateServicesParametersModel(Integer tiIdService) {      
+        Integer liRes = 0;
+        try {
+            LmkIntServicesParamsTabViewImpl    loObj = 
+                getLmkIntServicesParamsTabView1();
+            loObj.setWhereClause("ID_SERVICE = '" + tiIdService+"'");
+            loObj.setRangeSize(-1);
+            loObj.executeQuery();            
+            Row[] laRows = loObj.getAllRowsInRange();     
+            if (laRows.length > 0) {
+                liRes = laRows.length;
+            } 
+        } catch (Exception loEx) {
+            System.out.println("Select by Id ERROR!!"+loEx.getMessage());
+        }finally{                        
+            getDBTransaction().commit();    
+        }  
+        return liRes;
+    }
+    
+    /**
      * Insert en tabla de Configuracion de Parametros Servicios
      * @autor Jorge Luis Bautista Santiago  
      * @param piIdService, 
@@ -207,8 +267,7 @@ public class AppModuleImpl extends ApplicationModuleImpl {
      * @param psValParameter,
      * @param psStatusTab
      * @return void
-     */
-    
+     */    
     public void insertServicesParamsModel(LmkIntServicesParamsRowBean toLmkBean) {        
         LmkIntServicesParamsTabViewImpl    loObj = 
             getLmkIntServicesParamsTabView1();
@@ -216,17 +275,20 @@ public class AppModuleImpl extends ApplicationModuleImpl {
         LmkIntServicesParamsTabViewRowImpl loRow = 
             (LmkIntServicesParamsTabViewRowImpl)loObj.createRow();        
         try {
+                    
             loRow.setIdParameterServ(toLmkBean.getLiIdParameterServ());            
             loRow.setIdService(toLmkBean.getLiIdService());            
             loRow.setIndParameter(toLmkBean.getLsIndParameter());         
             loRow.setIndValParameter(toLmkBean.getLsIndValParameter());         
-            loRow.setIndEstatus(toLmkBean.getLsIndEstatus());         
+            loRow.setIndEstatus(toLmkBean.getLsIndEstatus());  
+            
             loRow.setFecCreationDate(getCurrentTimestamp());
             loRow.setFecLastUpdateDate(getCurrentTimestamp());
-            loRow.setAttribute15(getValueSessionFromAttribute("loggedIntegrationUser"));
-            loRow.setNumCreatedBy(Integer.parseInt(getValueSessionFromAttribute("loggedIntegrationIdUser")));
-            loRow.setNumLastUpdateLogin(Integer.parseInt(getValueSessionFromAttribute("loggedIntegrationIdUser")));
-            loRow.setNumLastUpdatedBy(Integer.parseInt(getValueSessionFromAttribute("loggedIntegrationIdUser")));
+            loRow.setAttribute15(getValueSessionFromAttribute("loggedPgmIntegrationIdUser"));
+            loRow.setNumCreatedBy(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+            loRow.setNumLastUpdateLogin(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+            loRow.setNumLastUpdatedBy(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+            
             loObj.insertRow(loRow);          
         } catch (Exception loEx) {
             System.out.println("Insert ERROR!!"+loEx.getMessage());
@@ -243,7 +305,6 @@ public class AppModuleImpl extends ApplicationModuleImpl {
      * @param psValParameter
      * @return void
      */
-    
     public void deleteServicesParamsModel(LmkIntServicesParamsRowBean toLmkBean) {             
         try {
             LmkIntServicesParamsTabViewImpl    loObj = 
@@ -306,9 +367,9 @@ public class AppModuleImpl extends ApplicationModuleImpl {
                loUpdRow.setIndValParameter(toLmkBean.getLsIndValParameter());                             
                loUpdRow.setIndEstatus(toLmkBean.getLsIndEstatus());
                loUpdRow.setFecLastUpdateDate(getCurrentTimestamp());
-               loUpdRow.setAttribute14(getValueSessionFromAttribute("loggedIntegrationUser"));
-               loUpdRow.setNumLastUpdateLogin(Integer.parseInt(getValueSessionFromAttribute("loggedIntegrationIdUser")));
-               loUpdRow.setNumLastUpdatedBy(Integer.parseInt(getValueSessionFromAttribute("loggedIntegrationIdUser"))); 
+               loUpdRow.setAttribute14(getValueSessionFromAttribute("loggedPgmIntegrationIdUser"));
+               loUpdRow.setNumLastUpdateLogin(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+               loUpdRow.setNumLastUpdatedBy(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser"))); 
            }           
         } catch (Exception loEx) {
             System.out.println("Update ERROR!!"+loEx.getMessage());
@@ -397,6 +458,33 @@ public class AppModuleImpl extends ApplicationModuleImpl {
     }
     
     /******************************* Servicios(Procesos) *************************************/
+    
+    /**
+     * Valida si un servicio ya existe en la tabla, por Id
+     * @autor Jorge Luis Bautista Santiago  
+     * @param psNomService     
+     * @return void
+     */
+    public Integer validateExistByNomServicesCatModel(String psNomService) {      
+        Integer liRes = 0;
+        try {
+            LmkIntServicesCatTabViewImpl    loObj = 
+                getLmkIntServicesCatTabView1();
+            loObj.setWhereClause("NOM_SERVICE = '" + psNomService+"'");
+            loObj.setRangeSize(-1);
+            loObj.executeQuery();            
+            Row[] laRows = loObj.getAllRowsInRange();     
+            if (laRows.length > 0) {
+                liRes = laRows.length;
+            } 
+        } catch (Exception loEx) {
+            System.out.println("Select by Id ERROR!!"+loEx.getMessage());
+        }finally{                        
+            getDBTransaction().commit();    
+        }  
+        return liRes;
+    }
+    
     /**
      * Insert en tabla de Servicios (procesos)
      * @autor Jorge Luis Bautista Santiago  
@@ -1004,9 +1092,9 @@ public class AppModuleImpl extends ApplicationModuleImpl {
                loUpdRow.setIndValueParameter(toLmkBean.getLsValueParameter());
                loUpdRow.setIndEstatus(toLmkBean.getLsStatus());
                loUpdRow.setFecLastUpdateDate(getCurrentTimestamp());
-               loUpdRow.setAttribute14(getValueSessionFromAttribute("loggedIntegrationUser"));
-               loUpdRow.setNumLastUpdateLogin(Integer.parseInt(getValueSessionFromAttribute("loggedIntegrationIdUser")));
-               loUpdRow.setNumLastUpdatedBy(Integer.parseInt(getValueSessionFromAttribute("loggedIntegrationIdUser"))); 
+               loUpdRow.setAttribute14(getValueSessionFromAttribute("loggedPgmIntegrationIdUser"));
+               loUpdRow.setNumLastUpdateLogin(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser")));
+               loUpdRow.setNumLastUpdatedBy(Integer.parseInt(getValueSessionFromAttribute("loggedPgmIntegrationIdUser"))); 
            }           
         } catch (Exception loEx) {
             System.out.println("Update ERROR!!"+loEx.getMessage());
@@ -1125,6 +1213,22 @@ public class AppModuleImpl extends ApplicationModuleImpl {
      */
     public LmkIntServicesParamsTabViewImpl getLmkIntServicesParamsTabView1() {
         return (LmkIntServicesParamsTabViewImpl) findViewObject("LmkIntServicesParamsTabView1");
+    }
+
+    /**
+     * Container's getter for LmkIntServicesCatVwView1.
+     * @return LmkIntServicesCatVwView1
+     */
+    public ViewObjectImpl getLmkIntServicesCatVwView1() {
+        return (ViewObjectImpl) findViewObject("LmkIntServicesCatVwView1");
+    }
+
+    /**
+     * Container's getter for LmkIntServicesLogVwView1.
+     * @return LmkIntServicesLogVwView1
+     */
+    public ViewObjectImpl getLmkIntServicesLogVwView1() {
+        return (ViewObjectImpl) findViewObject("LmkIntServicesLogVwView1");
     }
 }
 
